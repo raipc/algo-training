@@ -212,6 +212,136 @@ class Solution {
         }
         return accumulator
     }
+
+    // 189. Rotate Array
+    fun rotate(nums: IntArray, k: Int): IntArray {
+        fun reverse(from: Int, to: Int) {
+            for (i in from until from + (to - from) / 2) {
+                val rightIdx = to-i+from-1
+                val tmp = nums[i]
+                nums[i] = nums[rightIdx]
+                nums[rightIdx] = tmp
+            }
+        }
+        val size = nums.size
+        val normalizedRotations = k % size
+        if (normalizedRotations > 0) {
+            reverse(0, size)
+            reverse(0, normalizedRotations)
+            reverse(normalizedRotations, size)
+        }
+        return nums
+    }
+
+
+    // 977. Squares of a Sorted Array
+    fun sortedSquares(nums: IntArray): IntArray {
+        val size = nums.size
+        val idxOfNonNegative = nums.indexOfFirst { it >= 0 }
+        var cnt = 0
+        val result = IntArray(size)
+        var positivesIdx = if (idxOfNonNegative >= 0) idxOfNonNegative else size
+        var negativesIdx = positivesIdx - 1
+        while (negativesIdx >= 0 && positivesIdx < size) {
+            if (nums[positivesIdx] < -nums[negativesIdx]) {
+                result[cnt] += nums[positivesIdx] * nums[positivesIdx]
+                positivesIdx++
+            } else {
+                result[cnt] += nums[negativesIdx] * nums[negativesIdx]
+                negativesIdx--
+            }
+            cnt++
+        }
+        for (i in positivesIdx until  size) {
+            result[cnt] += nums[i] * nums[i]
+            ++cnt
+        }
+        for (i in negativesIdx downTo 0) {
+            result[cnt] += nums[i] * nums[i]
+            ++cnt
+        }
+
+        return result
+    }
+
+    // 2477. Minimum Fuel Cost to Report to the Capital
+    fun minimumFuelCost(roads: Array<IntArray>, seats: Int): Long {
+        val connectedCities = Array(roads.size + 1) { mutableListOf<Int>() }
+        roads.forEach {(from, to) -> connectedCities[from].add(to); connectedCities[to].add(from) }
+        var fuelSpent = 0L
+        fun dfs(location: Int, previous: Int): Int = (1 + connectedCities[location].sumBy { if (it != previous) dfs(it, location) else 0 })
+            .also { passengers -> if (location != 0) fuelSpent += Math.ceil(passengers.toDouble() / seats).toLong() }
+        dfs(0, -1)
+        return fuelSpent
+    }
+
+    // 21. Merge Two Sorted Lists
+    fun mergeTwoLists(list1: ListNode?, list2: ListNode?): ListNode? {
+        if (list1 == null) return list2
+        if (list2 == null) return list1
+        var (iter1, iter2: ListNode?, resultRoot) = if (list1.`val` <= list2.`val`) {
+            arrayOf(list1.next, list2, list1)
+        } else {
+            arrayOf(list1, list2.next, list2)
+        }
+        var resultIter: ListNode = resultRoot!!
+        while (iter1 != null && iter2 != null) {
+            val next: ListNode
+            if (iter1.`val` <= iter2.`val`) {
+                next = iter1
+                iter1 = iter1.next
+            } else {
+                next = iter2
+                iter2 = iter2.next
+            }
+            resultIter.next = next
+            resultIter = next
+        }
+        if (iter1 != null) {
+            resultIter.next = iter1
+        } else if (iter2 != null) {
+            resultIter.next = iter2
+        }
+        return resultRoot
+    }
+
+    // 206. Reverse Linked List
+    fun reverseList(head: ListNode?): ListNode? {
+        if (head == null) return null
+        var prevPrev: ListNode? = null
+        var prev = head
+
+        while (prev != null) {
+            val cur = prev.next
+            prev.next = prevPrev
+            prevPrev = prev
+            prev = cur
+        }
+        return prevPrev
+    }
+
+    // 20. Valid Parentheses
+    fun isValid(s: String): Boolean {
+        val stack = ArrayDeque<Char>()
+        for (ch in s) {
+            when(ch) {
+                '(', '[', '{' -> stack.addLast(ch)
+                ')' -> stack.pollLast()?.takeIf { it == '(' } ?: return false
+                ']' -> stack.pollLast()?.takeIf { it == '[' } ?: return false
+                '}' -> stack.pollLast()?.takeIf { it == '{' } ?: return false
+                else -> throw IllegalArgumentException()
+            }
+        }
+        return stack.isEmpty()
+    }
+}
+
+class ListNode(var `val`: Int) {
+    var next: ListNode? = null
+
+    override fun toString(): String {
+        return "val=${`val`}, next ${next}"
+    }
 }
 
 open class VersionControl(private val brokenVersion: Int) {
