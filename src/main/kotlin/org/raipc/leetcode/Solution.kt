@@ -1,6 +1,5 @@
 package org.raipc.leetcode
 
-import java.lang.StringBuilder
 import java.util.*
 
 class Solution {
@@ -333,6 +332,85 @@ class Solution {
             }
         }
         return stack.isEmpty()
+    }
+
+    // 6. Zigzag Conversion
+    fun convert(s: String, numRows: Int): String = if (numRows == 1) s else buildString {
+        val period = 2 * numRows - 2
+        for (row in 0 until numRows) {
+            for (i in row until s.length step period) {
+                append(s[i])
+                if (row > 0 && row < numRows - 1 && i + period - 2 * row < s.length) {
+                    append(s[i+period-2*row])
+                }
+            }
+        }
+    }
+
+    // 1523. Count Odd Numbers in an Interval Range
+    fun countOdds(low: Int, high: Int): Int =
+        (high - low) / 2 + if (low % 2 == 1 || high % 2 == 1) 1 else 0
+
+    // 283. Move Zeroes
+    fun moveZeroes(nums: IntArray): Unit {
+        var shift = 0
+        for (i in nums.indices) {
+            val el = nums[i]
+            if (el == 0) {
+                ++shift
+            } else if (shift > 0) {
+                nums[i-shift] = el
+            }
+        }
+        for (i in nums.size - shift until nums.size) {
+            nums[i] = 0
+        }
+    }
+
+    // 167. Two Sum II - Input Array Is Sorted
+    fun twoSum(numbers: IntArray, target: Int): IntArray {
+        var leftIdx = 0
+        var rightIdx = numbers.size - 1
+        while (true) {
+            val left = numbers[leftIdx]
+            val right = numbers[rightIdx]
+            when {
+                left + right > target -> --rightIdx
+                left + right < target -> ++leftIdx
+                else -> return intArrayOf(leftIdx + 1, rightIdx + 1)
+
+            }
+        }
+    }
+
+    // 876. Middle of the Linked List
+    fun middleNode(head: ListNode?): ListNode? {
+        var slow = head
+        var fast = head
+        while (fast != null) {
+            fast = fast.next
+            if (fast != null) slow = slow?.next
+            fast = fast?.next
+
+        }
+        return slow
+    }
+
+    // 142. Linked List Cycle II
+    fun detectCycle(head: ListNode?): ListNode? {
+        var fast = head
+        var slow = head
+        do {
+            slow = slow?.next
+            fast = fast?.next?.next
+        } while (fast != null && slow != fast)
+        if (fast == null) return null
+        var cycleStart = head
+        while (cycleStart !== slow) {
+            cycleStart = cycleStart!!.next
+            slow = slow!!.next
+        }
+        return cycleStart
     }
 }
 
