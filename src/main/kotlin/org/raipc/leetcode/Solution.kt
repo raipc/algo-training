@@ -412,6 +412,177 @@ class Solution {
         }
         return cycleStart
     }
+
+    // 23. Merge k Sorted Lists
+    fun mergeKLists(lists: Array<ListNode?>): ListNode? {
+        if (lists.isEmpty()) return null
+        val pq = PriorityQueue<ListNode>(lists.size) { a, b -> a.`val`.compareTo(b.`val`) }
+        lists.forEach { if (it != null) pq += it }
+        if (pq.isEmpty()) return null
+        val root = pq.poll()!!
+        root.next?.let { pq += it }
+        var iter: ListNode? = root
+        while (!pq.isEmpty()) {
+            pq.poll()!!.let {
+                iter!!.next = it
+                iter = it
+                it.next?.let { next -> pq += next }
+            }
+        }
+        return root
+    }
+
+    // 9. Palindrome Number
+    fun isPalindrome(x: Int): Boolean {
+        if (x == 0) return true
+        if (x < 0 || x % 10 == 0) return false
+        var rest = x
+        var reverted = 0
+        while (rest > reverted) {
+            reverted = reverted * 10 + rest % 10;
+            rest /= 10
+        }
+        return rest == reverted || rest == reverted / 10
+    }
+
+    // 8. String to Integer (atoi)
+    fun myAtoi(s: String): Int {
+        val len = s.length
+        var i = 0
+        while (i < len && s[i] == ' ') ++i
+        var accumulator = 0L
+        var mult = 1
+        if (i < len) {
+            when(s[i]) {
+                '-' -> {++i; mult = -1}
+                '+' -> ++i
+            }
+            val greaterThanMoxPositiveInt = Integer.MAX_VALUE + 1L
+            while (i < len && accumulator <= greaterThanMoxPositiveInt) {
+                val ch = s[i]
+                if (ch in '0'..'9') {
+                    accumulator = accumulator * 10 + (ch - '0')
+                } else break
+                ++i
+            }
+        }
+        val result = mult * accumulator
+        return when {
+            result >= Integer.MAX_VALUE -> Integer.MAX_VALUE
+            result <= Integer.MIN_VALUE -> Integer.MIN_VALUE
+            else -> result.toInt()
+        }
+    }
+
+    // 10. Regular Expression Matching
+    fun isMatch(s: String, p: String): Boolean {
+        val dp = Array(s.length + 1) { BitSet(p.length + 1) }.apply { this[s.length][p.length] = true }
+        for (i in s.length downTo 0) {
+            for (j in p.length - 1 downTo 0) {
+                val firstMatch = i < s.length && (p[j] == s[i] || p[j] == '.')
+                dp[i][j] = if (j + 1 < p.length && p[j + 1] == '*') {
+                    dp[i][j+2] || firstMatch && dp[i+1][j]
+                } else {
+                    firstMatch && dp[i+1][j+1]
+                }
+            }
+        }
+        return dp[0][0]
+    }
+
+    // 67. Add Binary
+    fun addBinary(a: String, b: String): String {
+        if (a.length > b.length) {
+            return addBinary(b, a)
+        }
+        return buildString(maxOf(a.length, b.length) + 1) {
+            var mem = 0
+            val leftLength = a.length
+            val rightLength = b.length
+            val zeroCode = '0'.toInt()
+            val zeroCodeDouble = zeroCode * 2
+            for (i in 0 until leftLength) {
+                val left = a[leftLength - i - 1]
+                val right = b[rightLength - i - 1]
+                val sum = left.toInt() + right.toInt() + mem - zeroCodeDouble
+                mem = sum / 2
+                append(((sum % 2) + zeroCode).toChar())
+            }
+            for (i in leftLength until rightLength) {
+                val sum = b[rightLength - i - 1].toInt() + mem - zeroCode
+                mem = sum / 2
+                append(((sum % 2) + zeroCode).toChar())
+            }
+            if (mem > 0) {
+                append('1')
+            }
+        }.reversed()
+    }
+
+    // 121. Best Time to Buy and Sell Stock
+    fun maxProfit(prices: IntArray): Int {
+        var maxPrice = -1
+        var minPrice = -1
+        var maxProfit = 0
+        for (i in prices.size - 1 downTo 0) {
+            prices[i].let {
+                if (it > maxPrice)  {
+                    maxProfit = maxOf(maxProfit, maxPrice - minPrice)
+                    maxPrice = it
+                    minPrice = it
+                } else if (it < minPrice) {
+                    minPrice = it
+                }
+            }
+        }
+        return maxOf(maxProfit, maxPrice - minPrice)
+    }
+
+    // 409. Longest Palindrome
+    fun longestPalindrome(s: String): Int {
+        val asciiTableSize = 127
+        val counters = IntArray(asciiTableSize)
+        for (ch in s) {
+            counters[ch.toInt()] += 1
+        }
+        var oddSum = 0
+        var evenHalfSum = 0
+        for (i in 'A'.toInt() until asciiTableSize) {
+            counters[i].let {
+                evenHalfSum += (it / 2)
+                if (oddSum == 0 && it % 2 == 1) {
+                    oddSum = 1
+                }
+            }
+        }
+        return evenHalfSum * 2 + oddSum
+    }
+
+    // 344. Reverse String
+    fun reverseString(s: CharArray) = s.reverse()
+
+
+    // 557. Reverse Words in a String III
+    fun reverseWords(s: String): String = s.splitToSequence(' ')
+        .joinToString(" ") { it.reversed() }
+
+
+    // 26. Remove Duplicates from Sorted Array
+    fun removeDuplicates(nums: IntArray): Int {
+        var prev = nums[0]
+        var deleteCount = 0
+        for (i in 1 until nums.size) {
+            val value = nums[i]
+            if (deleteCount > 0) {
+                nums[i - deleteCount] = value
+            }
+            if (value == prev) {
+                ++deleteCount
+            }
+            prev = value
+        }
+        return nums.size - deleteCount
+    }
 }
 
 class ListNode(var `val`: Int) {
