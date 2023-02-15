@@ -665,6 +665,22 @@ class Solution {
         val maxIdx = palLengths.indices.maxBy { palLengths[it] } ?: 0
         return s.substring((maxIdx - palLengths[maxIdx]) / 2, (maxIdx + palLengths[maxIdx] - 2) / 2)
     }
+
+    // 3. Longest Substring Without Repeating Characters
+    fun lengthOfLongestSubstring(s: String): Int {
+        var maxLength = 0
+        var startIdx = 0
+        val charCodesToIndex = mutableMapOf<Int, Int>()
+        for (i in s.indices) {
+            charCodesToIndex.put(s[i].toInt(), i)?.also { prevIdx ->
+                if (prevIdx >= startIdx) {
+                    maxLength = maxOf(maxLength, i - startIdx)
+                    startIdx = prevIdx + 1
+                }
+            }
+        }
+        return maxOf(maxLength, s.length - startIdx)
+    }
 }
 
 class ListNode(var `val`: Int) {
