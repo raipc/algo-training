@@ -583,6 +583,88 @@ class Solution {
         }
         return nums.size - deleteCount
     }
+
+    // 989. Add to Array-Form of Integer
+    fun addToArrayForm(num: IntArray, k: Int): List<Int> {
+        var rest = k
+        val result = mutableListOf<Int>()
+        for (i in num.size - 1 downTo 0) {
+            val sum = num[i] + (rest % 10)
+            result.add(sum % 10)
+            rest = rest / 10 + sum / 10
+        }
+        while (rest > 0) {
+            result.add(rest % 10)
+            rest /= 10
+        }
+        return result.asReversed()
+    }
+
+    // 589. N-ary Tree Preorder Traversal
+    fun preorder(root: Node?): List<Int> {
+        if (root == null) return listOf()
+        val stack = ArrayDeque<Node>().apply { add(root) }
+        val result = mutableListOf<Int>()
+        while (!stack.isEmpty()) {
+            val node = stack.pollLast()!!
+            result += node.`val`
+            for (i in node.children.size - 1 downTo 0) {
+                stack += node.children[i]
+            }
+        }
+        return result
+    }
+
+    // 102. Binary Tree Level Order Traversal
+    fun levelOrder(root: TreeNode?): List<List<Int>> {
+        if (root == null) return listOf()
+        val result = mutableListOf<MutableList<Int>>()
+        val stack = ArrayDeque<Pair<TreeNode, Int>>().apply { add(Pair(root, 0)) }
+        while (stack.isNotEmpty()) {
+            val (node, level) = stack.pollLast()!!
+            if (result.size <= level) {
+                result += mutableListOf<Int>()
+            }
+            result[level].add(node.`val`)
+            node.right?.let { stack += Pair(it, level + 1) }
+            node.left?.let { stack += Pair(it, level + 1) }
+        }
+        return result
+    }
+
+    // 19. Remove Nth Node From End of List
+    fun removeNthFromEnd(head: ListNode?, n: Int): ListNode? {
+        fun countFromTailAndRemoveMatching(node: ListNode?): Int =
+            if (node == null) 0 else 1 + countFromTailAndRemoveMatching(node.next)
+                .also { if (it == n) { node.next = node.next?.next } }
+        return if (head == null) null else ListNode(Int.MIN_VALUE).apply { next = head }
+            .apply { countFromTailAndRemoveMatching(this) }
+            .next
+    }
+
+    // 5. Longest Palindromic Substring
+    fun longestPalindromicSubstring(s: String): String {
+        val preprocessed = CharArray(s.length * 2 + 3)
+            .apply { for (i in s.indices) this[2*i+2] = s[i] }
+            .apply { this[0] = '^' }
+            .apply { this[lastIndex] = '$' }
+        val palLengths = IntArray(preprocessed.size)
+        var left = 1
+        var right = 1
+        for (center in 1 ..  preprocessed.size - 2) {
+            palLengths[center] = maxOf(0, minOf(right - center, palLengths[left + (right - center)]))
+            while (preprocessed[center - palLengths[center]] ==
+                   preprocessed[center + palLengths[center]]) {
+                palLengths[center]++
+            }
+            if (center + palLengths[center] > right) {
+                left = center - palLengths[center]
+                right = center + palLengths[center]
+            }
+        }
+        val maxIdx = palLengths.indices.maxBy { palLengths[it] } ?: 0
+        return s.substring((maxIdx - palLengths[maxIdx]) / 2, (maxIdx + palLengths[maxIdx] - 2) / 2)
+    }
 }
 
 class ListNode(var `val`: Int) {
@@ -591,6 +673,15 @@ class ListNode(var `val`: Int) {
     override fun toString(): String {
         return "val=${`val`}, next ${next}"
     }
+}
+
+class Node(var `val`: Int) {
+    var children: List<Node?> = listOf()
+}
+
+class TreeNode(var `val`: Int) {
+    var left: TreeNode? = null
+    var right: TreeNode? = null
 }
 
 open class VersionControl(private val brokenVersion: Int) {
