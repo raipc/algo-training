@@ -681,6 +681,41 @@ class Solution {
         }
         return maxOf(maxLength, s.length - startIdx)
     }
+
+    fun reverseKGroup(head: ListNode?, k: Int): ListNode? {
+        fun reverseFullGroup(head: ListNode?, groupSize: Int, out: Array<ListNode?>): Array<ListNode?> {
+            var prev: ListNode? = null
+            var cur = head
+            var cnt = 0
+            while (cur != null && cnt < groupSize) {
+                val next = cur.next
+                cur.next = prev
+                prev = cur
+                cur = next
+                ++cnt
+            }
+            if (cnt < groupSize) {
+                return reverseFullGroup(prev, cnt, out)
+            }
+            out[0] = prev
+            out[1] = cur
+            return out
+        }
+        var result: ListNode? = null
+        var node = head
+        val tmp = arrayOfNulls<ListNode?>(2)
+        var prevTail: ListNode? = null
+        while (node != null) {
+            val (headOfGroupAfterReverse, nextNode) = reverseFullGroup(node, k, tmp)
+            prevTail?.next = headOfGroupAfterReverse
+            prevTail = node
+            node = nextNode
+            if (result == null) {
+                result = headOfGroupAfterReverse
+            }
+        }
+        return result
+    }
 }
 
 class ListNode(var `val`: Int) {
