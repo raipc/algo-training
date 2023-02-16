@@ -1,6 +1,7 @@
 package org.raipc.leetcode
 
 import java.util.*
+import kotlin.math.abs
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -735,6 +736,27 @@ class Solution {
 
     fun maxDepthRecursive(root: TreeNode?): Int =
         if (root == null) 0 else maxOf(maxDepthRecursive(root.left), maxDepthRecursive(root.right)) + 1
+
+    // 2006. Count Number of Pairs With Absolute Difference K
+    fun countKDifference(nums: IntArray, k: Int): Int {
+        val matchingIndexes = nums.indices.groupBy({ nums[it] }, { it })
+        return nums.indices.sumBy { idx ->
+            (matchingIndexes[nums[idx] - k]?.count { it > idx } ?: 0) +
+            (matchingIndexes[nums[idx] + k]?.count { it > idx } ?: 0)
+        }
+    }
+
+    fun countKDifferenceNaive(nums: IntArray, k: Int): Int {
+        var count = 0
+        for (i in 0 until nums.size - 1) {
+            for (j in i + 1 until nums.size) {
+                if (Math.abs(nums[i] - nums[j]) == k) {
+                    ++count
+                }
+            }
+        }
+        return count
+    }
 }
 
 class ListNode(var `val`: Int) {
