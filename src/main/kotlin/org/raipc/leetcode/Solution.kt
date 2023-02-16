@@ -716,6 +716,25 @@ class Solution {
         }
         return result
     }
+
+    // 104. Maximum Depth of Binary Tree
+    fun maxDepth(root: TreeNode?): Int {
+        if (root == null) return 0
+        val stack: Deque<TreeNode> = ArrayDeque<TreeNode>().apply { addLast(root) }
+        var depth = 0
+        do {
+            ++depth
+            for (i in 0 until stack.size) {
+                val node = stack.pollFirst()!!
+                node.left?.let { stack.addLast(it) }
+                node.right?.let { stack.addLast(it) }
+            }
+        } while (!stack.isEmpty())
+        return depth
+    }
+
+    fun maxDepthRecursive(root: TreeNode?): Int =
+        if (root == null) 0 else maxOf(maxDepthRecursive(root.left), maxDepthRecursive(root.right)) + 1
 }
 
 class ListNode(var `val`: Int) {
