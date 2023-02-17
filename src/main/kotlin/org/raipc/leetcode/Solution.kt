@@ -1,7 +1,7 @@
 package org.raipc.leetcode
 
 import java.util.*
-import kotlin.math.abs
+import kotlin.collections.ArrayList
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -757,6 +757,38 @@ class Solution {
         }
         return count
     }
+
+    // 783. Minimum Distance Between BST Nodes
+    fun minDiffInBST(root: TreeNode?): Int {
+        if (root == null) return Int.MAX_VALUE
+        val list = ArrayList<TreeNode>().apply { add(root) }
+        var i = 0
+        while (i < list.size) {
+            val node = list[i]
+            node.left?.let { list += it }
+            node.right?.let { list += it }
+            ++i
+        }
+        list.sortBy { it.`val` }
+        return (0 until list.size - 1).minBy { list[it+1].`val` - list[it].`val` }!!
+            .let { list[it+1].`val` - list[it].`val` }
+    }
+
+    fun minDiffInBSTRecursive(root: TreeNode?): Int {
+        var minDiff = Int.MAX_VALUE
+        var prev: TreeNode? = null
+        fun traverseInOrder(node: TreeNode?): Int {
+            if (node == null) return minDiff
+            traverseInOrder(node.left)
+            if (prev != null) {
+                minDiff = minOf(minDiff, node.`val` - prev!!.`val`)
+            }
+            prev = node
+            return traverseInOrder(node.right)
+        }
+        return traverseInOrder(root)
+    }
+
 }
 
 class ListNode(var `val`: Int) {
