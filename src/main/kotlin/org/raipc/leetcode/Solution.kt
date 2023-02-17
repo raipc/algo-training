@@ -832,6 +832,36 @@ class Solution {
         return image
     }
 
+    // 695. Max Area of Island
+    fun maxAreaOfIsland(grid: Array<IntArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+        var maxArea = 0
+        val directions = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+        val queue = ArrayDeque<Pair<Int, Int>>()
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (grid[i][j] != 1) continue
+                var currentComponentSize = 0
+                queue += Pair(i, j)
+                grid[i][j] = 0
+                while(!queue.isEmpty()) {
+                    val (x, y) = queue.removeFirst()
+                    ++currentComponentSize
+                    for ((dx, dy) in directions) {
+                        val xx = x + dx
+                        val yy = y + dy
+                        if (xx in 0 until m && yy in 0 until n && grid[xx][yy] == 1) {
+                            grid[xx][yy] = 0
+                            queue += Pair(xx, yy)
+                        }
+                    }
+                }
+                maxArea = maxOf(currentComponentSize, maxArea)
+            }
+        }
+        return maxArea
+    }
 }
 
 class ListNode(var `val`: Int) {
