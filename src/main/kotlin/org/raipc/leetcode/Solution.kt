@@ -789,6 +789,18 @@ class Solution {
         return traverseInOrder(root)
     }
 
+    // 98. Validate Binary Search Tree
+    fun isValidBST(root: TreeNode?): Boolean {
+        fun isValidRecursive(node: TreeNode, rangeLeft: Long, rangeRight: Long): Boolean = node.`val`.let { value ->
+            (value > rangeLeft) && (value < rangeRight) &&
+            (node.left?.let { it.`val` < value && isValidRecursive(it, rangeLeft, value.toLong()) } ?: true) &&
+            (node.right?.let { it.`val` > value && isValidRecursive(it, value.toLong(), rangeRight) } ?: true)
+        }
+        return root == null || isValidRecursive(root, Long.MIN_VALUE, Long.MAX_VALUE)
+    }
+
+
+
 }
 
 class ListNode(var `val`: Int) {
