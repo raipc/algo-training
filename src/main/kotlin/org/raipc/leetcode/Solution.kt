@@ -808,6 +808,30 @@ class Solution {
         }
     }
 
+    // 733. Flood Fill
+    fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, color: Int): Array<IntArray> {
+        val m = image.size
+        val n = image[0].size
+        val directions = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+        val prevColor = image[sr][sc]
+        if (color != prevColor) {
+            image[sr][sc] = color
+            val queue = ArrayDeque<Pair<Int, Int>>().apply { add(Pair(sr, sc)) }
+            while (!queue.isEmpty()) {
+                val (x, y) = queue.removeFirst()
+                for ((dx, dy) in directions) {
+                    val i = x + dx
+                    val j = y + dy
+                    if (i in 0 until m && j in 0 until n && image[i][j] == prevColor) {
+                        queue += Pair(i, j)
+                        image[i][j] = color
+                    }
+                }
+            }
+        }
+        return image
+    }
+
 }
 
 class ListNode(var `val`: Int) {
