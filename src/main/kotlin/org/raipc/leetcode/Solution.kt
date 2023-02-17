@@ -799,7 +799,14 @@ class Solution {
         return root == null || isValidRecursive(root, Long.MIN_VALUE, Long.MAX_VALUE)
     }
 
-
+    // 235. Lowest Common Ancestor of a Binary Search Tree
+    fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
+        return when {
+            root == p || root == q || (p!!.`val` - root!!.`val`).toLong() * (q!!.`val` - root.`val`) < 0L -> root
+            p.`val` < root.`val` -> lowestCommonAncestor(root.left, p, q)
+            else -> lowestCommonAncestor(root.right, p, q)
+        }
+    }
 
 }
 
