@@ -981,6 +981,9 @@ class Solution {
         }
         return a + b
     }
+
+    // 70. Climbing Stairs
+    fun climbStairs(n: Int): Int = fib(n + 1)
 }
 
 class ListNode(var `val`: Int) {
