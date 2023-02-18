@@ -863,6 +863,35 @@ class Solution {
         return maxArea
     }
 
+    // 200. Number of Islands
+    fun numIslands(grid: Array<CharArray>): Int {
+        val m = grid.size
+        val n = grid[0].size
+        var numOfIslands = 0
+        val directions = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+        val queue = ArrayDeque<Pair<Int, Int>>()
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (grid[i][j] != '1') continue
+                numOfIslands++
+                queue += Pair(i, j)
+                grid[i][j] = '0'
+                while(!queue.isEmpty()) {
+                    val (x, y) = queue.removeFirst()
+                    for ((dx, dy) in directions) {
+                        val xx = x + dx
+                        val yy = y + dy
+                        if (xx in 0 until m && yy in 0 until n && grid[xx][yy] == '1') {
+                            grid[xx][yy] = '0'
+                            queue += Pair(xx, yy)
+                        }
+                    }
+                }
+            }
+        }
+        return numOfIslands
+    }
+
     // 567. Permutation in String
     fun checkInclusion(s1: String, s2: String): Boolean {
         if (s1.length > s2.length) return false
