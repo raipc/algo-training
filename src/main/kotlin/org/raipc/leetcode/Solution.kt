@@ -774,7 +774,8 @@ class Solution {
             .let { list[it+1].`val` - list[it].`val` }
     }
 
-    fun minDiffInBSTRecursive(root: TreeNode?): Int {
+    // 530. Minimum Absolute Difference in BST
+    fun getMinimumDifference(root: TreeNode?): Int {
         var minDiff = Int.MAX_VALUE
         var prev: TreeNode? = null
         fun traverseInOrder(node: TreeNode?): Int {
