@@ -944,6 +944,30 @@ class Solution {
         left = mergeTrees(root1?.left, root2?.left)
         right = mergeTrees(root1?.right, root2?.right)
     }
+
+    // 116. Populating Next Right Pointers in Each Node
+    fun connect(root: NodeWithSibling?): NodeWithSibling? {
+        if (root == null) return null
+        val queue = ArrayDeque<NodeWithSibling>().apply { add(root) }
+        while (!queue.isEmpty()) {
+            var prev: NodeWithSibling? = null
+            repeat(queue.size) { _ ->
+                val node = queue.removeFirst()
+                node.left?.let { queue.addLast(it) }
+                node.right?.let { queue.addLast(it) }
+                prev?.next = node
+                prev = node
+            }
+        }
+        return root
+    }
+
+    fun connectRecursive(root: NodeWithSibling?): NodeWithSibling? = root?.apply {
+        left?.next = right
+        right?.next = next?.left
+        connectRecursive(right)
+        connectRecursive(left)
+    }
 }
 
 class ListNode(var `val`: Int) {
@@ -961,6 +985,12 @@ class Node(var `val`: Int) {
 class TreeNode(var `val`: Int) {
     var left: TreeNode? = null
     var right: TreeNode? = null
+}
+
+class NodeWithSibling(var `val`: Int) {
+    var left: NodeWithSibling? = null
+    var right: NodeWithSibling? = null
+    var next: NodeWithSibling? = null
 }
 
 open class VersionControl(private val brokenVersion: Int) {
