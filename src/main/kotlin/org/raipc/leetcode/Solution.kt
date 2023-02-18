@@ -862,6 +862,48 @@ class Solution {
         }
         return maxArea
     }
+
+    // 567. Permutation in String
+    fun checkInclusion(s1: String, s2: String): Boolean {
+        if (s1.length > s2.length) return false
+        val alphabetSize = 26
+        val charOccurrenceCountInSearch = IntArray(alphabetSize)
+        val charOccurrenceCountInTarget = IntArray(alphabetSize)
+        val offset = 'a'.toInt()
+        for (i in s1.indices) {
+            charOccurrenceCountInSearch[s1[i].toInt() - offset]++
+            charOccurrenceCountInTarget[s2[i].toInt() - offset]++
+        }
+
+        var matchingCharGroups = 0
+        for (i in 0 until alphabetSize) {
+            if (charOccurrenceCountInSearch[i] == charOccurrenceCountInTarget[i]) matchingCharGroups++
+        }
+
+        for (i in 0 until s2.length - s1.length) {
+            if (matchingCharGroups == alphabetSize) return true
+            val left = s2[i].toInt() - offset
+            val right = s2[i + s1.length].toInt() - offset
+
+            when(++charOccurrenceCountInTarget[right] - charOccurrenceCountInSearch[right]) {
+                0 -> ++matchingCharGroups
+                1 -> --matchingCharGroups
+            }
+
+            when(--charOccurrenceCountInTarget[left] - charOccurrenceCountInSearch[left]) {
+                0 -> ++matchingCharGroups
+                -1 -> --matchingCharGroups
+            }
+        }
+        return matchingCharGroups == alphabetSize
+    }
+
+    // 226. Invert Binary Tree
+    fun invertTree(root: TreeNode?): TreeNode? = root?.apply {
+        val leftPrev = left
+        left = invertTree(right)
+        right = invertTree(leftPrev)
+    }
 }
 
 class ListNode(var `val`: Int) {
@@ -899,40 +941,5 @@ class VCSolution(brokenVersion: Int): VersionControl(brokenVersion) {
             }
         }
         return -1
-    }
-
-    // 567. Permutation in String
-    fun checkInclusion(s1: String, s2: String): Boolean {
-        if (s1.length > s2.length) return false
-        val alphabetSize = 26
-        val charOccurrenceCountInSearch = IntArray(alphabetSize)
-        val charOccurrenceCountInTarget = IntArray(alphabetSize)
-        val offset = 'a'.toInt()
-        for (i in s1.indices) {
-            charOccurrenceCountInSearch[s1[i].toInt() - offset]++
-            charOccurrenceCountInTarget[s2[i].toInt() - offset]++
-        }
-
-        var matchingCharGroups = 0
-        for (i in 0 until alphabetSize) {
-            if (charOccurrenceCountInSearch[i] == charOccurrenceCountInTarget[i]) matchingCharGroups++
-        }
-
-        for (i in 0 until s2.length - s1.length) {
-            if (matchingCharGroups == alphabetSize) return true
-            val left = s2[i].toInt() - offset
-            val right = s2[i + s1.length].toInt() - offset
-
-            when(++charOccurrenceCountInTarget[right] - charOccurrenceCountInSearch[right]) {
-                0 -> ++matchingCharGroups
-                1 -> --matchingCharGroups
-            }
-
-            when(--charOccurrenceCountInTarget[left] - charOccurrenceCountInSearch[left]) {
-                0 -> ++matchingCharGroups
-                -1 -> --matchingCharGroups
-            }
-        }
-        return matchingCharGroups == alphabetSize
     }
 }
