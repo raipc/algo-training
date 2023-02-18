@@ -968,6 +968,19 @@ class Solution {
         connectRecursive(right)
         connectRecursive(left)
     }
+
+    // 509. Fibonacci Number
+    fun fib(n: Int): Int {
+        if (n <= 1) return n
+        var a = 0
+        var b = 1
+        repeat(n - 2) {
+            val prevB = b
+            b += a
+            a = prevB
+        }
+        return a + b
+    }
 }
 
 class ListNode(var `val`: Int) {
