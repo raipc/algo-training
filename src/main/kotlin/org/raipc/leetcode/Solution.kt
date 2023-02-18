@@ -904,6 +904,16 @@ class Solution {
         left = invertTree(right)
         right = invertTree(leftPrev)
     }
+
+    // 617. Merge Two Binary Trees
+    fun mergeTrees(root1: TreeNode?, root2: TreeNode?): TreeNode? = when {
+        root1 == null -> if (root2 == null) null else TreeNode(root2.`val`)
+        root2 == null -> TreeNode(root1.`val`)
+        else -> TreeNode(root1.`val` + root2.`val`)
+    }?.apply {
+        left = mergeTrees(root1?.left, root2?.left)
+        right = mergeTrees(root1?.right, root2?.right)
+    }
 }
 
 class ListNode(var `val`: Int) {
