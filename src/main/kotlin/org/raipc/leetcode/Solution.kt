@@ -984,6 +984,35 @@ class Solution {
 
     // 70. Climbing Stairs
     fun climbStairs(n: Int): Int = fib(n + 1)
+
+    // 542. 01 Matrix
+    fun updateMatrix(mat: Array<IntArray>): Array<IntArray> {
+        val n = mat.size
+        val m = mat[0].size
+        val result = Array(n) { IntArray(m) { Int.MAX_VALUE} }
+        val directions = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+        val queue = ArrayDeque<Pair<Int, Int>>()
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (mat[i][j] == 0) {
+                    result[i][j] = 0
+                    queue += Pair(i, j)
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            val (x, y) = queue.removeFirst()
+            for ((dx, dy) in directions) {
+                val i = x + dx
+                val j = y + dy
+                if (i in 0 until n && j in 0 until m && result[i][j] > result[x][y] + 1) {
+                    result[i][j] = result[x][y] + 1
+                    queue += Pair(i, j)
+                }
+            }
+        }
+        return result
+    }
 }
 
 class ListNode(var `val`: Int) {
