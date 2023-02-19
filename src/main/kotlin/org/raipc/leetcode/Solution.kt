@@ -1013,6 +1013,26 @@ class Solution {
         }
         return result
     }
+
+    // 103. Binary Tree Zigzag Level Order Traversal
+    fun zigzagLevelOrder(root: TreeNode?): List<List<Int>> {
+        if (root == null) return emptyList()
+        val deque = ArrayDeque<TreeNode>().apply { add(root) }
+        val result = mutableListOf<MutableList<Int>>()
+        while (!deque.isEmpty()) {
+            val list = ArrayList<Int>(deque.size).also { result.add(it) }
+            repeat(deque.size) {
+                val node = deque.removeFirst()
+                list += node.`val`
+                node.left?.let { deque += it }
+                node.right?.let { deque += it }
+            }
+        }
+        for (i in 1 until result.size step 2) {
+            result[i] = result[i].asReversed()
+        }
+        return result
+    }
 }
 
 class ListNode(var `val`: Int) {
