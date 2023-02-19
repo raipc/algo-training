@@ -1033,6 +1033,35 @@ class Solution {
         }
         return result
     }
+
+    // 994. Rotting Oranges
+    fun orangesRotting(grid: Array<IntArray>): Int {
+        val queue = ArrayDeque<Pair<Int, Int>>()
+        val n = grid.size
+        val m = grid[0].size
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (grid[i][j] == 2) queue += Pair(i, j)
+            }
+        }
+        val directions = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(0, -1))
+        var minutes = -1
+        while (queue.isNotEmpty()) {
+            minutes++
+            repeat(queue.size) {
+                val (x, y) = queue.removeFirst()
+                for ((dx, dy) in directions) {
+                    val i = x + dx
+                    val j = y + dy
+                    if (i in 0 until n && j in 0 until m && grid[i][j] == 1) {
+                        grid[i][j] = 2
+                        queue.add(Pair(i, j))
+                    }
+                }
+            }
+        }
+        return if (grid.any { it.contains(1) }) -1 else maxOf(minutes, 0)
+    }
 }
 
 class ListNode(var `val`: Int) {
