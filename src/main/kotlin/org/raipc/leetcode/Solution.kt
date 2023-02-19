@@ -928,6 +928,48 @@ class Solution {
         return matchingCharGroups == alphabetSize
     }
 
+    // 30. Substring with Concatenation of All Words
+    fun findSubstring(s: String, words: Array<String>): List<Int> {
+        if (words.isEmpty() || s.length < words.size * words[0].length) return emptyList()
+        val step = words[0].length
+        val permutationLength = step * words.size
+        val result = mutableListOf<Int>()
+        val wordsMap = hashMapOf<String, Int>()
+        words.forEach { wordsMap.compute(it) { _, prev -> (prev ?: 0) + 1 } }
+
+        for (offset in 0 until step) {
+            if (s.length < permutationLength + offset) break
+            val matches = hashMapOf<String, Int>()
+            for (i in offset until permutationLength + offset step step) {
+                matches.compute(s.substring(i, i + step)) { _, prev -> (prev ?: 0) + 1 }
+            }
+            var numberOfMatchingWords = 0
+            matches.forEach { (word, count) ->
+                numberOfMatchingWords += minOf(wordsMap.getOrDefault(word, 0), count)
+            }
+            if (numberOfMatchingWords == words.size) result.add(offset)
+
+            for (i in offset + step .. s.length - permutationLength step step) {
+                val toRemove = s.substring(i-step, i)
+                val toAdd = s.substring(i+permutationLength-step, i+permutationLength)
+                if (toRemove != toAdd) {
+                    val numOfRemoveInWords = wordsMap[toRemove] ?: 0
+                    if (numOfRemoveInWords > 0 &&
+                        numOfRemoveInWords > ((matches.compute(toRemove) { _, prev -> if (prev == null) null else prev - 1 }) ?: 0)) {
+                        --numberOfMatchingWords
+                    }
+                    val numOfAddInWords = wordsMap[toAdd] ?: 0
+                    if (numOfAddInWords > 0) {
+                        val newCount = matches.compute(toAdd) { _, prev -> if (prev == null) 1 else prev + 1 } ?: 0
+                        if (newCount <= numOfAddInWords) ++numberOfMatchingWords
+                    }
+                }
+                if (numberOfMatchingWords == words.size) result.add(i)
+            }
+        }
+        return result
+    }
+
     // 226. Invert Binary Tree
     fun invertTree(root: TreeNode?): TreeNode? = root?.apply {
         val leftPrev = left
