@@ -1104,6 +1104,14 @@ class Solution {
         }
         return if (grid.any { it.contains(1) }) -1 else maxOf(minutes, 0)
     }
+
+    // 746. Min Cost Climbing Stairs
+    fun minCostClimbingStairs(cost: IntArray): Int {
+        for (i in 2 until cost.size) {
+            cost[i] += minOf(cost[i-2], cost[i-1])
+        }
+        return minOf(cost[cost.lastIndex], cost[cost.lastIndex - 1])
+    }
 }
 
 class ListNode(var `val`: Int) {
