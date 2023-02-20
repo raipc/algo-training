@@ -1,7 +1,6 @@
 package org.raipc.leetcode
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -1124,6 +1123,19 @@ class Solution {
             }
         }
         return results.last().last()
+    }
+
+    fun uniquePathsMath(m: Int, n: Int): Int {
+        var result = 1L
+        var left = 1
+        var right = m + n - 2
+        val max = maxOf(m, n)
+        while (right >= max) {
+            result = result * right / left
+            right--
+            left++
+        }
+        return result.toInt()
     }
 }
 
