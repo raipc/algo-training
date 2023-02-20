@@ -1112,6 +1112,19 @@ class Solution {
         }
         return minOf(cost[cost.lastIndex], cost[cost.lastIndex - 1])
     }
+
+    // 62. Unique Paths
+    fun uniquePaths(m: Int, n: Int): Int {
+        val results = Array(m) { IntArray(n) }
+        for (i in 1 until m) { results[i][0] = 1 }
+        for (j in 1 until n) { results[0][j] = 1 }
+        for (i in 1 until m) {
+            for (j in 1 until n) {
+                results[i][j] = results[i][j-1] + results[i-1][j]
+            }
+        }
+        return results.last().last()
+    }
 }
 
 class ListNode(var `val`: Int) {
