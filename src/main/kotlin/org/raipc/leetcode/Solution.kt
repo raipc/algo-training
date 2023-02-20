@@ -1174,6 +1174,25 @@ class Solution {
         }
         return left - 1
     }
+
+    // 794. Valid Tic-Tac-Toe State
+    fun validTicTacToe(board: Array<String>): Boolean {
+        val xCounts = board.sumBy { row -> row.count { it == 'X' } }
+        val oCounts = board.sumBy { row -> row.count { it == 'O' } }
+        val numberOfWinsInRows = (0 until 3).count { board[it][0] == board[it][1] && board[it][0] == board[it][2] && board[it][0] != ' ' }
+        val numberOfWinsInCols = (0 until 3).count { board[0][it] == board[1][it] && board[0][it] == board[2][it] && board[0][it] != ' '}
+        if (numberOfWinsInRows > 1 || numberOfWinsInCols > 1) return false
+        val center = board[1][1]
+        val diagonalWin = center != ' ' && ((board[0][0] == center && board[2][2] == center) ||
+                (board[0][2] == center && board[2][0] == center))
+        return when {
+            diagonalWin -> if (center == 'X') xCounts == oCounts + 1 else xCounts == oCounts
+            numberOfWinsInRows > 0 -> if (board.contains("XXX")) xCounts == oCounts + 1 else xCounts == oCounts
+            numberOfWinsInCols > 0 -> if ((0..2).any { board[0][it] == 'X' && board[1][it] == 'X' && board[2][it] == 'X'})
+                xCounts == oCounts + 1 else xCounts == oCounts
+            else -> xCounts == oCounts || xCounts == oCounts + 1
+        }
+    }
 }
 
 class ListNode(var `val`: Int) {
