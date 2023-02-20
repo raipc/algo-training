@@ -1153,6 +1153,27 @@ class Solution {
         }
         return result
     }
+
+    // 2517. Maximum Tastiness of Candy Basket
+    fun maximumTastiness(price: IntArray, k: Int): Int {
+        price.sort()
+        var left = 0
+        var right = price.last() - price.first() + 1
+        fun maxSize(mid: Int): Int {
+            var size = 0
+            var prevPrice = -mid
+            for (p in price) if (p >= prevPrice + mid) {
+                prevPrice = p
+                ++size
+            }
+            return size
+        }
+        while (left < right) {
+            val mid = (left + right) / 2;
+            if (maxSize(mid) >= k) left = mid + 1 else right = mid
+        }
+        return left - 1
+    }
 }
 
 class ListNode(var `val`: Int) {
