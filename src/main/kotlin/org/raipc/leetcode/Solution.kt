@@ -1250,6 +1250,24 @@ class Solution {
         }
         return nums.last()
     }
+
+    // 424. Longest Repeating Character Replacement
+    fun characterReplacement(s: String, k: Int): Int {
+        val charCountMap = IntArray(26)
+        val offset = 'A'.toInt()
+        var maxCount = 0
+        var left = 0
+        for (right in s.indices) {
+            val idx = s[right].toInt() - offset
+            charCountMap[idx]++
+            maxCount = maxOf(maxCount, charCountMap[idx])
+            if (right - left + 1 - k > maxCount) {
+                charCountMap[s[left].toInt() - offset]--
+                ++left
+            }
+        }
+        return s.lastIndex - left + 1
+    }
 }
 
 class ListNode(var `val`: Int) {
