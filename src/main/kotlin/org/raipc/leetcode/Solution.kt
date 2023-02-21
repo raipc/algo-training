@@ -1268,6 +1268,22 @@ class Solution {
         }
         return s.lastIndex - left + 1
     }
+
+    // 77. Combinations
+    fun combine(n: Int, k: Int): List<List<Int>> {
+        fun doCombine(position: Int, acc: Array<Int>, result: MutableList<List<Int>>) {
+            val prev = if (position == 0) 0 else acc[position-1]
+            for (i in prev+1..n) {
+                acc[position] = i
+                if (position + 1 == k) {
+                    result.add(ArrayList<Int>(k).apply { addAll(acc) })
+                } else {
+                    doCombine(position + 1, acc, result)
+                }
+            }
+        }
+        return mutableListOf<List<Int>>().apply { doCombine(0, Array(k){ 0 }, this) }
+    }
 }
 
 class ListNode(var `val`: Int) {
