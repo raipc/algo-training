@@ -1321,6 +1321,22 @@ class Solution {
         }
         return mutableListOf<String>().apply { doPermute(s.toCharArray(), 0, this) }
     }
+
+    // 41. First Missing Positive
+    fun firstMissingPositive(nums: IntArray): Int {
+        val n = nums.size
+        for (i in 0 until n) {
+            while (nums[i] in 1..n && nums[i] != nums[nums[i] - 1]) {
+                val temp = nums[nums[i] - 1]
+                nums[nums[i] - 1] = nums[i]
+                nums[i] = temp
+            }
+        }
+        for (i in 0 until n) {
+            if (nums[i] != i + 1) return i + 1
+        }
+        return n + 1
+    }
 }
 
 class ListNode(var `val`: Int) {
