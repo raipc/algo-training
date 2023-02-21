@@ -1193,6 +1193,26 @@ class Solution {
             else -> xCounts == oCounts || xCounts == oCounts + 1
         }
     }
+
+    // 540. Single Element in a Sorted Array
+    fun singleNonDuplicate(nums: IntArray): Int {
+        val size = nums.size
+        if (size == 1) return nums.first()
+        var left = 0
+        var right = nums.size
+        while (left < right) {
+            val mid = ((right + left) / 2).let { if (it % 2 == 1) it - 1 else it }
+            val value = nums[mid]
+            if (mid + 1 < size && value == nums[mid+1]) {
+                left = mid + 2
+            } else if (mid == 0 || value != nums[mid-1]) {
+                return value
+            } else {
+                right = mid
+            }
+        }
+        return nums.last()
+    }
 }
 
 class ListNode(var `val`: Int) {
