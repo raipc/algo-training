@@ -1337,6 +1337,13 @@ class Solution {
         }
         return n + 1
     }
+
+    // 136. Single Number
+    fun singleNumber(nums: IntArray): Int {
+        var acc = 0
+        nums.forEach { acc = acc xor it }
+        return acc
+    }
 }
 
 class ListNode(var `val`: Int) {
