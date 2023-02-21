@@ -1301,6 +1301,26 @@ class Solution {
         }
         return mutableListOf<List<Int>>().apply { doPermute(0, nums.toMutableList(), this) }
     }
+
+    // 784. Letter Case Permutation
+    fun letterCasePermutation(s: String): List<String> {
+        fun doPermute(arr: CharArray, index: Int, result: MutableList<String>) {
+            if (index == arr.size) {
+                result.add(String(arr))
+            } else {
+                val ch = arr[index]
+                if (ch in '0'..'9') {
+                    doPermute(arr, index + 1, result)
+                } else {
+                    arr[index] = ch.toUpperCase()
+                    doPermute(arr, index + 1, result)
+                    arr[index] = ch.toLowerCase()
+                    doPermute(arr, index + 1, result)
+                }
+            }
+        }
+        return mutableListOf<String>().apply { doPermute(s.toCharArray(), 0, this) }
+    }
 }
 
 class ListNode(var `val`: Int) {
