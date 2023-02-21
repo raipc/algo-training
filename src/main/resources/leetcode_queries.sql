@@ -23,3 +23,5 @@ SELECT employee_id, IF(mod(employee_id, 2) = 1 AND LEFT(name, 1) <> 'M', salary,
 FROM Employees
 ORDER BY employee_id
 
+-- 627. Swap Salary
+UPDATE Salary SET sex = IF(sex='f','m','f')
