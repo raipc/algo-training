@@ -1284,6 +1284,23 @@ class Solution {
         }
         return mutableListOf<List<Int>>().apply { doCombine(0, Array(k){ 0 }, this) }
     }
+
+    // 46. Permutations
+    fun permute(nums: IntArray): List<List<Int>> {
+        fun doPermute(index: Int, acc: MutableList<Int>, result: MutableList<List<Int>>) {
+            if (index == acc.lastIndex) result.add(ArrayList<Int>().apply { addAll(acc) })
+            else for (i in index until acc.size) {
+                if (i == index) {
+                    doPermute(index + 1, acc, result)
+                } else {
+                    Collections.swap(acc, index, i)
+                    doPermute(index + 1, acc, result)
+                    Collections.swap(acc, index, i)
+                }
+            }
+        }
+        return mutableListOf<List<Int>>().apply { doPermute(0, nums.toMutableList(), this) }
+    }
 }
 
 class ListNode(var `val`: Int) {
