@@ -927,6 +927,43 @@ class Solution {
         return matchingCharGroups == alphabetSize
     }
 
+    // 438. Find All Anagrams in a String
+    fun findAnagrams(s: String, p: String): List<Int> {
+        if (p.length > s.length) return emptyList()
+        val alphabetSize = 26
+        val charOccurrenceCountInSearch = IntArray(alphabetSize)
+        val charOccurrenceCountInTarget = IntArray(alphabetSize)
+        val offset = 'a'.toInt()
+        for (i in p.indices) {
+            charOccurrenceCountInSearch[p[i].toInt() - offset]++
+            charOccurrenceCountInTarget[s[i].toInt() - offset]++
+        }
+
+        var matchingCharGroups = 0
+        for (i in 0 until alphabetSize) {
+            if (charOccurrenceCountInSearch[i] == charOccurrenceCountInTarget[i]) matchingCharGroups++
+        }
+
+        val result = mutableListOf<Int>().also { if (matchingCharGroups == alphabetSize) it.add(0) }
+
+        for (i in 0 until s.length - p.length) {
+            val left = s[i].toInt() - offset
+            val right = s[i + p.length].toInt() - offset
+
+            when(++charOccurrenceCountInTarget[right] - charOccurrenceCountInSearch[right]) {
+                0 -> ++matchingCharGroups
+                1 -> --matchingCharGroups
+            }
+
+            when(--charOccurrenceCountInTarget[left] - charOccurrenceCountInSearch[left]) {
+                0 -> ++matchingCharGroups
+                -1 -> --matchingCharGroups
+            }
+            if (matchingCharGroups == alphabetSize) result.add(i + 1)
+        }
+        return result
+    }
+
     // 30. Substring with Concatenation of All Words
     fun findSubstring(s: String, words: Array<String>): List<Int> {
         if (words.isEmpty() || s.length < words.size * words[0].length) return emptyList()
