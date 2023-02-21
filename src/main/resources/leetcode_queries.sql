@@ -17,3 +17,9 @@ WHERE referee_id is null OR referee_id <> 2
 SELECT c.name as Customers
 FROM Customers c LEFT JOIN Orders o ON c.id = o.customerId
 WHERE o.id is null
+
+-- 1873. Calculate Special Bonus
+SELECT employee_id, IF(mod(employee_id, 2) = 1 AND LEFT(name, 1) <> 'M', salary, 0) AS bonus
+FROM Employees
+ORDER BY employee_id
+
