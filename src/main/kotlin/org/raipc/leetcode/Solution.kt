@@ -1344,6 +1344,35 @@ class Solution {
         nums.forEach { acc = acc xor it }
         return acc
     }
+
+    // 1011. Capacity To Ship Packages Within D Days
+    fun shipWithinDays(weights: IntArray, days: Int): Int {
+        fun canShipWithCapacity(capacity: Int): Boolean {
+            var daysRequired = 1
+            var currentWeight = 0
+            for (weight in weights) {
+                if (currentWeight + weight <= capacity) {
+                    currentWeight += weight
+                } else {
+                    currentWeight = weight
+                    daysRequired++
+                    if (daysRequired > days) break
+                }
+            }
+            return daysRequired <= days
+        }
+        var l = weights.max()!!
+        var r = weights.sum()
+        while (l < r) {
+            val mid = (r + l) / 2
+            if (canShipWithCapacity(mid)) {
+                r = mid
+            } else {
+                l = mid + 1
+            }
+        }
+        return l
+    }
 }
 
 class ListNode(var `val`: Int) {
