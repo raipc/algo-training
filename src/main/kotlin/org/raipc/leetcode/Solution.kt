@@ -1415,6 +1415,24 @@ class Solution {
         }
         return maxOf(nums[nums.lastIndex], nums[nums.lastIndex-1])
     }
+
+    // 120. Triangle
+    fun minimumTotal(triangle: List<List<Int>>): Int {
+        val maxWidth = triangle[triangle.lastIndex].size
+        if (maxWidth == 1) return triangle[0][0]
+        var minsCurr = IntArray(maxWidth - 1)
+        var minsPrev = IntArray(maxWidth) { triangle.last()[it] }
+        for (i in triangle.lastIndex - 1 downTo 0) {
+            val row = triangle[i]
+            for (j in row.indices) {
+                minsCurr[j] = row[j] + minOf(minsPrev[j], minsPrev[j+1])
+            }
+            val tmp = minsPrev
+            minsPrev = minsCurr
+            minsCurr = tmp
+        }
+        return minsPrev[0]
+    }
 }
 
 class ListNode(var `val`: Int) {
