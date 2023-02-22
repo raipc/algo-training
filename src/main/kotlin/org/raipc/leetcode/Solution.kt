@@ -1405,6 +1405,16 @@ class Solution {
         for (i in digitsInSecret.indices) { cows += minOf(digitsInSecret[i], digitsInGuess[i]) }
         return "${bulls}A${cows}B"
     }
+
+    // 198. House Robber
+    fun rob(nums: IntArray): Int {
+        if (nums.size < 3) return nums.max()!!
+        nums[2] += nums[0]
+        for (i in 3 until nums.size) {
+            nums[i] += maxOf(nums[i-2], nums[i-3])
+        }
+        return maxOf(nums[nums.lastIndex], nums[nums.lastIndex-1])
+    }
 }
 
 class ListNode(var `val`: Int) {
