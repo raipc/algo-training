@@ -1387,6 +1387,24 @@ class Solution {
         }
         throw IllegalStateException("Answer must exist!")
     }
+
+    // 299. Bulls and Cows
+    fun getHint(secret: String, guess: String): String {
+        var bulls = 0
+        var cows = 0
+        val digitsInSecret = IntArray(10)
+        val digitsInGuess = IntArray(10)
+        secret.forEachIndexed { i, secretCh ->
+            val guessCh = guess[i]
+            if (secretCh == guessCh) ++bulls
+            else {
+                digitsInGuess[guessCh - '0']++
+                digitsInSecret[secretCh - '0']++
+            }
+        }
+        for (i in digitsInSecret.indices) { cows += minOf(digitsInSecret[i], digitsInGuess[i]) }
+        return "${bulls}A${cows}B"
+    }
 }
 
 class ListNode(var `val`: Int) {
