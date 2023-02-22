@@ -368,7 +368,7 @@ class Solution {
     }
 
     // 167. Two Sum II - Input Array Is Sorted
-    fun twoSum(numbers: IntArray, target: Int): IntArray {
+    fun twoSum2(numbers: IntArray, target: Int): IntArray {
         var leftIdx = 0
         var rightIdx = numbers.size - 1
         while (true) {
@@ -1372,6 +1372,20 @@ class Solution {
             }
         }
         return l
+    }
+
+    // 1. Two Sum
+    fun twoSum(nums: IntArray, target: Int): IntArray {
+        val visited = hashMapOf<Int, Int>()
+        nums.forEachIndexed { i, num ->
+            val toAdd = target - num
+            val indexOfNumberToAdd = visited[toAdd]
+            if (indexOfNumberToAdd != null) {
+                return intArrayOf(indexOfNumberToAdd, i)
+            }
+            visited[num] = i
+        }
+        throw IllegalStateException("Answer must exist!")
     }
 }
 
