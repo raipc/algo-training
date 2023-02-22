@@ -41,3 +41,8 @@ SELECT sell_date,
 FROM Activities
 GROUP BY sell_date
 ORDER BY sell_date
+
+-- 1527. Patients With a Condition
+SELECT patient_id, patient_name, conditions
+FROM Patients
+WHERE conditions REGEXP '\\bDIAB1'
