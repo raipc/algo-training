@@ -1456,6 +1456,34 @@ class Solution {
         }
         return earnings
     }
+
+    // 844. Backspace String Compare
+    fun backspaceCompare(s: String, t: String): Boolean {
+        fun moveToCaret(startPos: Int, str: String): Int {
+            var idx = startPos
+            var backspaces = 0
+            while (backspaces >= 0 && idx >= 0) {
+                if (str[idx] == '#') {
+                    ++backspaces
+                } else {
+                    --backspaces
+                }
+                --idx
+            }
+            return if (backspaces < 0) idx + 1 else idx
+        }
+        var sIdx = s.length
+        var tIdx = t.length
+        do {
+            sIdx = moveToCaret(--sIdx, s)
+            tIdx = moveToCaret(--tIdx, t)
+            if (sIdx >= 0 && tIdx >= 0 && s[sIdx] != t[tIdx]) {
+                break
+            }
+
+        } while (sIdx >= 0 && tIdx >= 0)
+        return sIdx < 0 && tIdx < 0
+    }
 }
 
 class ListNode(var `val`: Int) {
