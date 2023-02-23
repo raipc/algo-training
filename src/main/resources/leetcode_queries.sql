@@ -71,3 +71,16 @@ UNION ALL
 SELECT product_id, 'store3' AS store, store3 AS price
 FROM Products
 WHERE store3 IS NOT NULL
+
+-- 608. Tree Node
+SELECT id, 'Root' AS type
+FROM Tree
+WHERE p_id IS NULL
+UNION
+SELECT DISTINCT t1.id, 'Inner' AS type
+FROM Tree t JOIN Tree t1 ON t.p_id = t1.id
+WHERE t1.p_id IS NOT NULL
+UNION
+SELECT t.id, 'Leaf' AS type
+FROM Tree t LEFT JOIN Tree t1 ON t1.p_id = t.id
+WHERE t1.id IS NULL AND t.p_id IS NOT NULL
