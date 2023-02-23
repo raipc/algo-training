@@ -1433,6 +1433,29 @@ class Solution {
         }
         return minsPrev[0]
     }
+
+    // 502. IPO
+    fun findMaximizedCapital(k: Int, w: Int, profits: IntArray, capital: IntArray): Int {
+        data class Project(val profit: Int, val capital: Int)
+
+        val size = profits.size
+        val projects = Array(size) { Project(profits[it], capital[it]) }
+            .apply { sortBy { it.capital } }
+        var earnings = w
+        val pq = PriorityQueue<Project>(size, compareByDescending { it.profit })
+        var ptr = 0
+        repeat(k) {
+            while (ptr < size && projects[ptr].capital <= earnings) {
+                pq.add(projects[ptr])
+                ++ptr
+            }
+            if (pq.isEmpty()) {
+                return earnings
+            }
+            earnings += pq.poll().profit
+        }
+        return earnings
+    }
 }
 
 class ListNode(var `val`: Int) {
