@@ -1509,6 +1509,9 @@ class Solution {
         }
     }
 
+    // 231. Power of Two
+    fun isPowerOfTwo(n: Int): Boolean = (n and (n - 1)) == 0 && n > 0
+
 }
 
 class ListNode(var `val`: Int) {
