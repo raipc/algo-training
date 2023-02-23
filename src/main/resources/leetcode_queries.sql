@@ -46,3 +46,15 @@ ORDER BY sell_date
 SELECT patient_id, patient_name, conditions
 FROM Patients
 WHERE conditions REGEXP '\\bDIAB1'
+
+-- 1965. Employees With Missing Information
+SELECT employee_id
+FROM (
+    SELECT e.employee_id
+    FROM Employees e LEFT JOIN Salaries s USING(employee_id)
+    WHERE s.salary IS NULL
+    UNION
+    SELECT s.employee_id
+    FROM Employees e RIGHT JOIN Salaries s USING(employee_id)
+    WHERE e.name IS NULL) t
+ORDER BY 1
