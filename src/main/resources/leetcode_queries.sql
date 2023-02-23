@@ -84,3 +84,8 @@ UNION
 SELECT t.id, 'Leaf' AS type
 FROM Tree t LEFT JOIN Tree t1 ON t1.p_id = t.id
 WHERE t1.id IS NULL AND t.p_id IS NOT NULL
+
+-- 176. Second Highest Salary
+SELECT MAX(salary) AS SecondHighestSalary
+FROM EMPLOYEE
+WHERE SALARY < (SELECT MAX(salary) FROM EMPLOYEE)
