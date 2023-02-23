@@ -1484,6 +1484,31 @@ class Solution {
         } while (sIdx >= 0 && tIdx >= 0)
         return sIdx < 0 && tIdx < 0
     }
+
+
+    // 394. Decode String
+    fun decodeString(s: String): String = buildString {
+        val repeatStack = ArrayDeque<IntArray>()
+        var numOfRepeats = 0
+        for (ch in s) {
+            when (ch) {
+                in '0'..'9' -> numOfRepeats = numOfRepeats * 10 + (ch - '0')
+                '[' -> {
+                    repeatStack += intArrayOf(numOfRepeats, length)
+                    numOfRepeats = 0
+                }
+                ']' -> {
+                    val (repeats, startIdx) = repeatStack.removeLast()
+                    val endIdx = length
+                    repeat(repeats - 1) {
+                        append(this, startIdx, endIdx)
+                    }
+                }
+                else -> append(ch)
+            }
+        }
+    }
+
 }
 
 class ListNode(var `val`: Int) {
