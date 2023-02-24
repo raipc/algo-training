@@ -1515,6 +1515,9 @@ class Solution {
     // 191. Number of 1 Bits
     fun hammingWeight(n:Int):Int = Integer.bitCount(n)
 
+    // 190. Reverse Bits
+    fun reverseBits(n:Int):Int = Integer.reverse(n)
+
     // 1675. Minimize Deviation in Array
     fun minimumDeviation(nums: IntArray): Int {
         val set = TreeSet<Int>().apply { nums.forEach { add(if (it % 2 == 1) it * 2 else it) } }
