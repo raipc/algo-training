@@ -1537,6 +1537,16 @@ class Solution {
         return deviation
     }
 
+    // 1046. Last Stone Weight
+    fun lastStoneWeight(stones: IntArray): Int {
+        val pq = PriorityQueue<Int>(compareByDescending { it }).apply { stones.forEach { add(it) } }
+        while (pq.size >= 2) {
+            val diff = pq.poll() - pq.poll()
+            if (diff > 0) pq.add(diff)
+        }
+        return if (pq.isEmpty()) 0 else pq.element()
+    }
+
 }
 
 class ListNode(var `val`: Int) {
