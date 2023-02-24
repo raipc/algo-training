@@ -93,3 +93,9 @@ WHERE SALARY < (SELECT MAX(salary) FROM EMPLOYEE)
 -- 175. Combine Two Tables
 SELECT firstName, lastName, city, state
 FROM Person LEFT JOIN Address USING (personId)
+
+-- 1581. Customer Who Visited but Did Not Make Any Transactions
+SELECT customer_id, COUNT(*) AS count_no_trans
+FROM Visits LEFT JOIN Transactions USING(visit_id)
+WHERE transaction_id IS NULL
+GROUP BY customer_id
