@@ -89,3 +89,7 @@ WHERE t1.id IS NULL AND t.p_id IS NOT NULL
 SELECT MAX(salary) AS SecondHighestSalary
 FROM EMPLOYEE
 WHERE SALARY < (SELECT MAX(salary) FROM EMPLOYEE)
+
+-- 175. Combine Two Tables
+SELECT firstName, lastName, city, state
+FROM Person LEFT JOIN Address USING (personId)
