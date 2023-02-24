@@ -1547,6 +1547,19 @@ class Solution {
         return if (pq.isEmpty()) 0 else pq.element()
     }
 
+    // 692. Top K Frequent Words
+    fun topKFrequent(words: Array<String>, k: Int): List<String> {
+        val frequencyMap = hashMapOf<String, Int>()
+        words.forEach { frequencyMap.compute(it) { _, prev -> (prev?:0) + 1 } }
+        val pq = PriorityQueue<Map.Entry<String, Int>>(k + 1,
+            compareBy<Map.Entry<String, Int>> { it.value }.then(compareByDescending { it.key }))
+        frequencyMap.entries.forEach {
+            pq += it
+            if (pq.size > k) pq.poll()
+        }
+        return (0 until pq.size).map { pq.poll().key }.asReversed()
+    }
+
 }
 
 class ListNode(var `val`: Int) {
