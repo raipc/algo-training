@@ -99,3 +99,9 @@ SELECT customer_id, COUNT(*) AS count_no_trans
 FROM Visits LEFT JOIN Transactions USING(visit_id)
 WHERE transaction_id IS NULL
 GROUP BY customer_id
+
+-- 1148. Article Views I
+SELECT DISTINCT viewer_id AS id
+FROM Views
+WHERE viewer_id = author_id
+ORDER BY viewer_id ASC
