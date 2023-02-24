@@ -1566,6 +1566,22 @@ class Solution {
     // 217. Contains Duplicate
     fun containsDuplicate(nums: IntArray) = hashSetOf<Int>().apply { nums.forEach { add(it) } }.size != nums.size
 
+    // 53. Maximum Subarray
+    fun maxSubArray(nums: IntArray): Int {
+        var maxSum = Integer.MIN_VALUE
+        var windowSum = 0
+        for (num in nums) {
+            windowSum += num
+            if (windowSum > maxSum) {
+                maxSum = windowSum
+            }
+            if (windowSum < 0) {
+                windowSum = 0
+            }
+        }
+        return maxSum
+    }
+
 }
 
 class ListNode(var `val`: Int) {
