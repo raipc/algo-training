@@ -1563,6 +1563,9 @@ class Solution {
         return (0 until pq.size).map { pq.poll().key }.asReversed()
     }
 
+    // 217. Contains Duplicate
+    fun containsDuplicate(nums: IntArray) = hashSetOf<Int>().apply { nums.forEach { add(it) } }.size != nums.size
+
 }
 
 class ListNode(var `val`: Int) {
