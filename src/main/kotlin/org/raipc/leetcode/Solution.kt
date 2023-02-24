@@ -1515,6 +1515,28 @@ class Solution {
     // 191. Number of 1 Bits
     fun hammingWeight(n:Int):Int = Integer.bitCount(n)
 
+    // 1675. Minimize Deviation in Array
+    fun minimumDeviation(nums: IntArray): Int {
+        val set = TreeSet<Int>().apply { nums.forEach { add(if (it % 2 == 1) it * 2 else it) } }
+        var deviation = Integer.MAX_VALUE
+        var foundMin = false
+        while(!foundMin) {
+            if (set.size == 1) {
+                deviation = 0
+                foundMin = true
+            } else {
+                val max = set.pollLast()!!
+                deviation = minOf(deviation, max - set.first())
+                if (max % 2 == 0) {
+                    set.add(max / 2)
+                } else {
+                    foundMin = true
+                }
+            }
+        }
+        return deviation
+    }
+
 }
 
 class ListNode(var `val`: Int) {
