@@ -105,3 +105,8 @@ SELECT DISTINCT viewer_id AS id
 FROM Views
 WHERE viewer_id = author_id
 ORDER BY viewer_id ASC
+
+-- 197. Rising Temperature
+SELECT t.id
+FROM Weather t JOIN Weather t1 ON t1.recordDate = DATE_SUB(t.recordDate, INTERVAL 1 DAY)
+WHERE t.temperature > t1.temperature
