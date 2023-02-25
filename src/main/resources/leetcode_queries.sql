@@ -110,3 +110,12 @@ ORDER BY viewer_id ASC
 SELECT t.id
 FROM Weather t JOIN Weather t1 ON t1.recordDate = DATE_SUB(t.recordDate, INTERVAL 1 DAY)
 WHERE t.temperature > t1.temperature
+
+-- 607. Sales Person
+SELECT name
+FROM SalesPerson
+WHERE sales_id NOT IN (
+    SELECT sales_id
+    FROM Company JOIN Orders USING (com_id)
+    WHERE name='RED'
+)
