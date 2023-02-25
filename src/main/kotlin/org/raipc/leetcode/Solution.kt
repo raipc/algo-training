@@ -1582,6 +1582,30 @@ class Solution {
         return maxSum
     }
 
+    // 88. Merge Sorted Array
+    fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int): Unit {
+        var idx1 = m - 1
+        var idx2 = n - 1
+        var insertionIdx = m + n - 1
+        while (idx1 >= 0 && idx2 >= 0) {
+            val first = nums1[idx1]
+            val second = nums2[idx2]
+            if (first > second) {
+                nums1[insertionIdx] = first
+                --idx1
+            } else {
+                nums1[insertionIdx] = second
+                --idx2
+            }
+            --insertionIdx
+        }
+        while (idx2 >= 0) {
+            nums1[insertionIdx] = nums2[idx2]
+            --insertionIdx
+            --idx2
+        }
+    }
+
 }
 
 class ListNode(var `val`: Int) {
