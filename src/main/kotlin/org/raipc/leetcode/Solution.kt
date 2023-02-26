@@ -1630,6 +1630,24 @@ class Solution {
             }
         }
     }
+
+    // 350. Intersection of Two Arrays II
+    fun intersect(nums1: IntArray, nums2: IntArray): IntArray {
+        val smallArraySize = nums2.size
+        if (nums1.size < smallArraySize) return intersect(nums2, nums1)
+        val counterMap = IntArray(1001)
+        nums2.forEach { ++counterMap[it] }
+        val result = IntArray(smallArraySize)
+        var resultSize = 0
+        for (num in nums1) {
+            val cntLeft = --counterMap[num]
+            if (cntLeft >= 0) {
+                result[resultSize++] = num
+                if (resultSize == smallArraySize) break
+            }
+        }
+        return if (resultSize == smallArraySize) result else result.copyOfRange(0, resultSize)
+    }
 }
 
 class ListNode(var `val`: Int) {
