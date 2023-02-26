@@ -125,3 +125,8 @@ SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
 FROM Activity
 WHERE activity_date < '2019-07-28' AND DATEDIFF('2019-07-27', activity_date) < 30
 GROUP BY activity_date
+
+-- 1693. Daily Leads and Partners
+SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners
+FROM DailySales
+GROUP BY date_id, make_name
