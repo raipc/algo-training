@@ -1606,6 +1606,30 @@ class Solution {
         }
     }
 
+    // 72. Edit Distance
+    fun minDistance(word1: String, word2: String): Int {
+        val len1 = word1.length
+        val len2 = word2.length
+        return when {
+            len1 == 0 -> len2
+            len2 == 0 -> len1
+            len1 > len2 -> minDistance(word2, word1)
+            else -> {
+                val dp = IntArray(len1 + 1) { it }
+                for (j in 1..len2) {
+                    var prev = dp[0]
+                    dp[0] += 1
+                    val ch2 = word2[j-1]
+                    for (i in 1..len1) {
+                        val temp = dp[i]
+                        dp[i] = if (word1[i-1] == ch2) prev else minOf(prev + 1, minOf(dp[i - 1] + 1, dp[i] + 1))
+                        prev = temp
+                    }
+                }
+                dp.last()
+            }
+        }
+    }
 }
 
 class ListNode(var `val`: Int) {
