@@ -130,3 +130,9 @@ GROUP BY activity_date
 SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners
 FROM DailySales
 GROUP BY date_id, make_name
+
+-- 1729. Find Followers Count
+SELECT user_id, COUNT(*) AS followers_count
+FROM Followers
+GROUP BY user_id
+ORDER BY user_id
