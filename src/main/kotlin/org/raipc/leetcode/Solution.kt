@@ -1674,6 +1674,20 @@ class Solution {
         }
         return construct(0, 0, grid.size)
     }
+
+    // 118. Pascal's Triangle
+    fun generate(numRows: Int): List<List<Int>> {
+        if (numRows == 1) return listOf(listOf(1))
+        if (numRows == 2) return listOf(listOf(1), listOf(1, 1))
+        val result = Array(numRows) { Array(it + 1) { 1 }.asList() as MutableList<Int> }
+        for (cnt in 2 until numRows) {
+            result[cnt].apply {
+                val prev = result[cnt-1]
+                for (i in 1 until cnt) this[i] = prev[i-1] + prev[i]
+            }
+        }
+        return result.asList()
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
