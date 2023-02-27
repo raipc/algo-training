@@ -1648,6 +1648,39 @@ class Solution {
         }
         return if (resultSize == smallArraySize) result else result.copyOfRange(0, resultSize)
     }
+
+    // 427. Construct Quad Tree
+    fun construct(grid: Array<IntArray>): QuadTreeNode? {
+        val leafZero = QuadTreeNode(`val` = false, isLeaf = true)
+        val leafOne = QuadTreeNode(`val` = true, isLeaf = true)
+        val nodes = Array(3) { leafZero }
+        fun construct(topIdx: Int, leftIdx: Int, length: Int): QuadTreeNode {
+            if (length == 1) return if (grid[topIdx][leftIdx] == 0) leafZero else leafOne
+            val halfLength = length / 2
+            val topLeft = construct(topIdx, leftIdx, halfLength)
+            val topRight = construct(topIdx, leftIdx + halfLength, halfLength)
+            val bottomLeft = construct(topIdx + halfLength, leftIdx, halfLength)
+            val bottomRight = construct(topIdx + halfLength, leftIdx + halfLength, halfLength)
+            nodes[0] = topRight
+            nodes[1] = bottomLeft
+            nodes[2] = bottomRight
+            return if (topLeft.isLeaf && nodes.all { it.isLeaf && it.`val` == topLeft.`val` }) topLeft
+                else QuadTreeNode(`val` = true, isLeaf = false).apply {
+                    this.topLeft = topLeft
+                    this.topRight = topRight
+                    this.bottomLeft = bottomLeft
+                    this.bottomRight = bottomRight
+            }
+        }
+        return construct(0, 0, grid.size)
+    }
+}
+
+class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
+    var topLeft: QuadTreeNode? = null
+    var topRight: QuadTreeNode? = null
+    var bottomLeft: QuadTreeNode? = null
+    var bottomRight: QuadTreeNode? = null
 }
 
 class ListNode(var `val`: Int) {
