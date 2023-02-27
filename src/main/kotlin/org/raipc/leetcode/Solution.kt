@@ -1705,6 +1705,13 @@ class Solution {
         for (ch in s) { ++countMap[ch-'a'] }
         return s.indexOfFirst { countMap[it-'a'] == 1 }
     }
+
+    // 27. Remove Element
+    fun removeElement(nums: IntArray, `val`: Int): Int {
+        var shiftCnt = 0
+        nums.forEachIndexed { i, num -> if (num == `val`) ++shiftCnt else if (shiftCnt > 0) nums[i-shiftCnt] = num }
+        return nums.size - shiftCnt
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
