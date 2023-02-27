@@ -154,3 +154,8 @@ SELECT user_id, MAX(time_stamp) AS last_stamp
 FROM Logins
 WHERE YEAR(time_stamp) = '2020'
 GROUP BY user_id
+
+-- 1741. Find Total Time Spent by Each Employee
+SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time
+FROM Employees
+GROUP BY emp_id, event_day
