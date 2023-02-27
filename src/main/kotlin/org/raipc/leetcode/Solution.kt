@@ -1698,6 +1698,13 @@ class Solution {
             for (i in 0 until r * c) this[i / c][i % c] = mat[i / m][i % m]
         }
     }
+
+    // 387. First Unique Character in a String
+    fun firstUniqChar(s: String): Int {
+        val countMap = IntArray(26)
+        for (ch in s) { ++countMap[ch-'a'] }
+        return s.indexOfFirst { countMap[it-'a'] == 1 }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
