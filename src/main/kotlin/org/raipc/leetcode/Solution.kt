@@ -1688,6 +1688,16 @@ class Solution {
         }
         return result.asList()
     }
+
+    // 566. Reshape the Matrix
+    fun matrixReshape(mat: Array<IntArray>, r: Int, c: Int): Array<IntArray> {
+        val n = mat.size
+        val m = mat[0].size
+        if (n * m != r * c || n == r) return mat
+        return Array(r) { IntArray(c) }.apply {
+            for (i in 0 until r * c) this[i / c][i % c] = mat[i / m][i % m]
+        }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
