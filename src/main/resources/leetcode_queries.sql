@@ -165,3 +165,8 @@ SELECT name, IFNULL(SUM(distance), 0) AS travelled_distance
 FROM Users LEFT JOIN Rides ON Users.id = Rides.user_id
 GROUP BY Users.id
 ORDER BY travelled_distance DESC, name ASC
+
+-- 1393. Capital Gain/Loss
+SELECT stock_name, SUM(price * IF(operation = 'Buy', -1, 1)) capital_gain_loss
+FROM Stocks
+GROUP BY stock_name
