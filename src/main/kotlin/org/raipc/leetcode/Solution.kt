@@ -1764,6 +1764,17 @@ class Solution {
         }
         return true
     }
+
+    // 17. Letter Combinations of a Phone Number
+    fun letterCombinations(digits: String): List<String> {
+        if (digits.isEmpty()) return emptyList()
+        val keyboard = arrayOf("", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz")
+        fun combine(index: Int, buf: CharArray, result: MutableList<String>) {
+            if (index == digits.length) result += String(buf)
+            else for (ch in keyboard[digits[index]-'0']) combine(index + 1, buf.apply { this[index] = ch }, result)
+        }
+        return mutableListOf<String>().apply { combine(0, CharArray(digits.length), this) }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
