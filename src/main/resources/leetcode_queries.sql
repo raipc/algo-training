@@ -170,3 +170,8 @@ ORDER BY travelled_distance DESC, name ASC
 SELECT stock_name, SUM(price * IF(operation = 'Buy', -1, 1)) capital_gain_loss
 FROM Stocks
 GROUP BY stock_name
+
+-- 1158. Market Analysis I
+SELECT user_id AS buyer_id, join_date, IFNULL(COUNT(order_id), 0) AS orders_in_2019
+FROM Users LEFT JOIN Orders ON Users.user_id = Orders.buyer_id AND YEAR(order_date) = '2019'
+GROUP BY Users.user_id
