@@ -159,3 +159,9 @@ GROUP BY user_id
 SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time
 FROM Employees
 GROUP BY emp_id, event_day
+
+-- 1407. Top Travellers
+SELECT name, IFNULL(SUM(distance), 0) AS travelled_distance
+FROM Users LEFT JOIN Rides ON Users.id = Rides.user_id
+GROUP BY Users.id
+ORDER BY travelled_distance DESC, name ASC
