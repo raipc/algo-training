@@ -1782,6 +1782,9 @@ class Solution {
 
     // 58. Length of Last Word
     fun lengthOfLastWord(s: String) = s.trim().let { it.length - it.lastIndexOf(' ') - 1 }
+
+    // 28. Find the Index of the First Occurrence in a String
+    fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
