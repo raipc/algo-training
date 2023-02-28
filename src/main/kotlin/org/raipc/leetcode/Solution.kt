@@ -1,7 +1,6 @@
 package org.raipc.leetcode
 
 import java.util.*
-import kotlin.Comparator
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -42,6 +41,19 @@ class Solution {
         return IntArray(nums.size) {
             sum += nums[it]
             sum
+        }
+    }
+
+    // 2574. Left and Right Sum Differences
+    fun leftRightDifference(nums: IntArray): IntArray {
+        var rightSum = nums.sum()
+        var leftSum = 0
+        var prev = 0
+        return IntArray(nums.size) {
+            leftSum += prev
+            prev = nums[it]
+            rightSum -= prev
+            Math.abs(rightSum - leftSum)
         }
     }
 
