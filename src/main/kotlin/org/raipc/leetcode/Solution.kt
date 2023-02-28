@@ -1712,6 +1712,18 @@ class Solution {
         nums.forEachIndexed { i, num -> if (num == `val`) ++shiftCnt else if (shiftCnt > 0) nums[i-shiftCnt] = num }
         return nums.size - shiftCnt
     }
+
+    // 652. Find Duplicate Subtrees
+    fun findDuplicateSubtrees(root: TreeNode?): List<TreeNode?> {
+        fun traverse(node: TreeNode?, result: MutableList<TreeNode>, counter: HashMap<String, Int>): String {
+            if (node == null) return ""
+            val left = traverse(node.left, result, counter)
+            val right = traverse(node.right, result, counter)
+            return ("" + node.`val` + "L" + left + "R" + right)
+                .also { if (counter.compute(it) { _, prev -> (prev?:0) + 1 } == 2) result += node }
+        }
+        return mutableListOf<TreeNode>().apply { traverse(root, this, hashMapOf()) }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
