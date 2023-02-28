@@ -717,6 +717,9 @@ class Solution {
         return result
     }
 
+    // 24. Swap Nodes in Pairs
+    fun swapPairs(head: ListNode?) = reverseKGroup(head, 2)
+
     // 104. Maximum Depth of Binary Tree
     fun maxDepth(root: TreeNode?): Int {
         if (root == null) return 0
