@@ -1724,6 +1724,23 @@ class Solution {
         }
         return mutableListOf<TreeNode>().apply { traverse(root, this, hashMapOf()) }
     }
+
+    // 74. Search a 2D Matrix
+    fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {
+        val n = matrix[0].size
+        var left = 0
+        var right = matrix.size * n - 1
+        do {
+            val mid = (right + left) / 2
+            val value = matrix[mid / n][mid % n]
+            when {
+                value < target -> left = mid + 1
+                value > target -> right = mid - 1
+                else -> return true
+            }
+        } while (left <= right)
+        return false
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
