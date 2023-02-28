@@ -1741,6 +1741,29 @@ class Solution {
         } while (left <= right)
         return false
     }
+
+    // 36. Valid Sudoku
+    fun isValidSudoku(board: Array<CharArray>): Boolean {
+        for (i in 0 until 9) {
+            val setByRow = IntArray(10)
+            val setByCol = IntArray(10)
+            for (j in 0 until 9) {
+                board[j][i].let { if (it != '.' && ++setByRow[it-'0'] > 1) return false }
+                board[i][j].let { if (it != '.' && ++setByCol[it-'0'] > 1) return false }
+            }
+        }
+        for (row in 0 until 9 step 3) {
+            for (col in 0 until 9 step 3) {
+                val set = IntArray(10)
+                for (i in 0 until 3) {
+                    for (j in 0 until 3) {
+                        board[row + i][col + j].let { if (it != '.' && ++set[it-'0'] > 1) return false }
+                    }
+                }
+            }
+        }
+        return true
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
