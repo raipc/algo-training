@@ -1,6 +1,7 @@
 package org.raipc.leetcode
 
 import java.util.*
+import kotlin.Comparator
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -1778,6 +1779,9 @@ class Solution {
         }
         return mutableListOf<String>().apply { combine(0, CharArray(digits.length), this) }
     }
+
+    // 58. Length of Last Word
+    fun lengthOfLastWord(s: String) = s.trim().let { it.length - it.lastIndexOf(' ') - 1 }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
