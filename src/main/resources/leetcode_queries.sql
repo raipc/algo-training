@@ -193,3 +193,9 @@ SELECT name, SUM(amount) AS balance
 FROM Users JOIN Transactions USING(account)
 GROUP BY account
 HAVING balance > 10000
+
+-- 1084. Sales Analysis III
+SELECT product_id, product_name
+FROM Product JOIN Sales USING (product_id)
+GROUP BY product_id
+HAVING SUM(IF(sale_date BETWEEN '2019-01-01' AND '2019-03-31', 0, 1)) = 0
