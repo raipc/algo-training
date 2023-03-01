@@ -1797,6 +1797,50 @@ class Solution {
 
     // 28. Find the Index of the First Occurrence in a String
     fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
+
+    private fun swap(nums: IntArray, firstIdx: Int, secondIdx: Int) {
+        val tmp = nums[firstIdx]
+        nums[firstIdx] = nums[secondIdx]
+        nums[secondIdx] = tmp
+    }
+
+    // 912. Sort an Array
+    fun sortArray(nums: IntArray): IntArray {
+        fun merge(begin: Int, mid: Int, end: Int) {
+            var left = begin
+            var leftEnd = mid - 1
+            var right = mid
+            if (nums[leftEnd] > nums[right]) {
+                while (left <= leftEnd && right < end) {
+                    if (nums[left] > nums[right]) {
+                        val value = nums[right]
+                        for (i in right downTo left + 1) nums[i] = nums[i - 1]
+                        nums[left] = value
+                        leftEnd++
+                        right++
+                    }
+                    left++
+                }
+            }
+        }
+        fun sortSubArray(begin: Int, end: Int) {
+            if (end - begin <= 8) {
+                for (i in begin until end - 1) {
+                    var minIdx = i
+                    for (j in i + 1 until end) {
+                        if (nums[j] < nums[minIdx]) minIdx = j
+                    }
+                    swap(nums, i, minIdx)
+                }
+            } else {
+                val mid = (begin + end) / 2
+                sortSubArray(begin, mid)
+                sortSubArray(mid, end)
+                merge(begin, mid, end)
+            }
+        }
+        return nums.apply { sortSubArray(0, this.size) }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
