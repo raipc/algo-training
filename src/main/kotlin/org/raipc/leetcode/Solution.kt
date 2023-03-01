@@ -1730,6 +1730,15 @@ class Solution {
         return true
     }
 
+    // 242. Valid Anagram
+    fun isAnagram(s: String, t: String): Boolean {
+        if (s.length != t.length) return false
+        val charCount = IntArray(26)
+        s.forEach { ++charCount[it-'a'] }
+        t.forEach { --charCount[it-'a'] }
+        return charCount.all { it == 0 }
+    }
+
     // 27. Remove Element
     fun removeElement(nums: IntArray, `val`: Int): Int {
         var shiftCnt = 0
