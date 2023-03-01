@@ -187,3 +187,9 @@ SELECT actor_id, director_id
 FROM ActorDirector
 GROUP BY actor_id, director_id
 HAVING COUNT(*) >= 3
+
+-- 1587. Bank Account Summary II
+SELECT name, SUM(amount) AS balance
+FROM Users JOIN Transactions USING(account)
+GROUP BY account
+HAVING balance > 10000
