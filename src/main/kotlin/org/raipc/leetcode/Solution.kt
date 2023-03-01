@@ -1722,6 +1722,14 @@ class Solution {
         return s.indexOfFirst { countMap[it-'a'] == 1 }
     }
 
+    // 383. Ransom Note
+    fun canConstruct(ransomNote: String, magazine: String): Boolean {
+        val magazineChars = IntArray(26)
+        magazine.forEach { ++magazineChars[it-'a'] }
+        ransomNote.forEach { if (--magazineChars[it-'a'] < 0) return false }
+        return true
+    }
+
     // 27. Remove Element
     fun removeElement(nums: IntArray, `val`: Int): Int {
         var shiftCnt = 0
