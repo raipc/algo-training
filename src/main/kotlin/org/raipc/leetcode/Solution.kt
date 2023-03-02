@@ -1915,6 +1915,20 @@ class Solution {
         return tmp.next
     }
 
+    // 83. Remove Duplicates from Sorted List
+    fun deleteDuplicates(head: ListNode?): ListNode? {
+        if (head != null) {
+            var current: ListNode = head
+            var next = current.next
+            while (next != null) {
+                if (next.`val` == current.`val`) current.next = next.next
+                else current = next
+                next = current.next
+            }
+        }
+        return head
+    }
+
 
     fun isHappy(n: Int): Boolean {
         fun sumOfSquares(value: Int): Int {
