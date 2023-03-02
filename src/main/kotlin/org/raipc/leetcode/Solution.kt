@@ -1953,6 +1953,27 @@ class Solution {
         }
         return output
     }
+
+    // 54. Spiral Matrix
+    fun spiralOrder(matrix: Array<IntArray>): List<Int> {
+        var firstRow = 0
+        var lastRow = matrix.lastIndex
+        var firstCol = 0
+        var lastCol = matrix[0].lastIndex
+        return ArrayList<Int>(matrix.size * matrix[0].size).apply {
+            while (firstRow <= lastRow && firstCol <= lastCol) {
+                matrix[firstRow].let { for (i in firstCol..lastCol) add(it[i]) }.also { firstRow++ }
+                for (j in firstRow..lastRow) { add(matrix[j][lastCol]) }; lastCol--
+                if (firstRow <= lastRow) {
+                    if (lastCol < 0) break
+                    matrix[lastRow].let { for (i in lastCol downTo firstCol) add(it[i]) }.also { lastRow-- }
+                    if (firstCol <= lastCol) {
+                        for (j in lastRow downTo firstRow) { add(matrix[j][firstCol]) }; firstCol++
+                    }
+                }
+            }
+        }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
