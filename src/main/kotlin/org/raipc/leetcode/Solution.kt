@@ -1914,6 +1914,26 @@ class Solution {
         }
         return tmp.next
     }
+
+
+    fun isHappy(n: Int): Boolean {
+        fun sumOfSquares(value: Int): Int {
+            var acc = 0
+            var t = value
+            while (t > 0) {
+                acc += (t % 10).let { it * it }
+                t /= 10
+            }
+            return acc
+        }
+        var slow = n
+        var fast = n
+        do {
+            fast = sumOfSquares(sumOfSquares(fast))
+            slow = sumOfSquares(slow)
+        } while (slow != fast)
+        return fast == 1
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
