@@ -1888,6 +1888,18 @@ class Solution {
         }
         return putCharCompressed(groupChar, groupCount, updatedIndex)
     }
+
+    // 141. Linked List Cycle
+    fun hasCycle(head: ListNode?): Boolean {
+        if (head == null) return false
+        var fast = head
+        var slow = head
+        do {
+            fast = fast!!.next?.next
+            slow = slow!!.next
+        } while (fast != null && fast != slow)
+        return fast != null
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
