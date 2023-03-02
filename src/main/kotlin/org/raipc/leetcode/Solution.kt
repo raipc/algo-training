@@ -1900,6 +1900,20 @@ class Solution {
         } while (fast != null && fast != slow)
         return fast != null
     }
+
+    // 203. Remove Linked List Elements
+    fun removeElements(head: ListNode?, `val`: Int): ListNode? {
+        val tmp = ListNode(0)
+        tmp.next = head
+        var current = tmp
+        var next = tmp.next
+        while (next != null) {
+            if (next.`val` == `val`) current.next = next.next
+            else current = next
+            next = current.next
+        }
+        return tmp.next
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
