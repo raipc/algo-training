@@ -1858,6 +1858,36 @@ class Solution {
         }
         return nums.apply { sortSubArray(0, this.size) }
     }
+
+    // 443. String Compression
+    fun compress(chars: CharArray): Int {
+        fun putCharCompressed(ch: Char, cnt: Int, index: Int): Int = index + 1 + when {
+            cnt == 1 -> 0
+            cnt < 10 -> 1
+            cnt < 100 -> 2
+            cnt < 1000 -> 3
+            else -> 4
+        }.also {
+            chars[index] = ch
+            var t = cnt
+            for (i in it downTo 1) {
+                chars[index + i] = '0' + (t % 10)
+                t /= 10
+            }
+        }
+        var updatedIndex = 0
+        var groupCount = 0
+        var groupChar = chars[0]
+        chars.forEach { ch ->
+            if (ch == groupChar) ++groupCount
+            else {
+                updatedIndex = putCharCompressed(groupChar, groupCount, updatedIndex)
+                groupChar = ch
+                groupCount = 1
+            }
+        }
+        return putCharCompressed(groupChar, groupCount, updatedIndex)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
