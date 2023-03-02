@@ -1934,6 +1934,25 @@ class Solution {
         } while (slow != fast)
         return fast == 1
     }
+
+    // 1706. Where Will the Ball Fall
+    fun findBall(grid: Array<IntArray>): IntArray {
+        val resultSize = grid[0].size
+        val lastIdx = resultSize - 1
+        val output = IntArray(resultSize) { it }
+        for (cell in grid) {
+            output.forEachIndexed { index, pos ->
+                output[index] = when {
+                    pos == -1 -> -1
+                    pos == 0 && cell[pos] == -1 || pos == lastIdx && cell[pos] == 1 -> -1
+                    cell[pos] == 1 && cell[pos] + cell[pos+1] != 0 -> pos + 1
+                    cell[pos] == -1 && cell[pos] + cell[pos-1] != 0 -> pos - 1
+                    else -> -1
+                }
+            }
+        }
+        return output
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
