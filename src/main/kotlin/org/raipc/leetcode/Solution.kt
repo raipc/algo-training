@@ -1990,6 +1990,24 @@ class Solution {
             }
         }
     }
+
+    // 43. Multiply Strings
+    fun multiply(num1: String, num2: String): String {
+        if (num1.length + num2.length < 19) return "" + (num1.toLong() * num2.toLong())
+        val resultDigits = IntArray(num1.length + num2.length)
+        for (i in num1.lastIndex downTo 0) {
+            val digit1 = num1[i] - '0'
+            for (j in num2.lastIndex downTo 0) {
+                val digit2 = num2[j] - '0'
+                resultDigits[j + i + 1] += digit1 * digit2
+            }
+        }
+        for (i in resultDigits.lastIndex downTo 1) {
+            resultDigits[i].let { v -> if (v > 0) resultDigits[i] = v % 10; resultDigits[i-1] += v / 10 }
+        }
+        val startIdx = resultDigits.indexOfFirst { it > 0 }
+        return if (startIdx < 0) "0" else String(CharArray(resultDigits.size - startIdx) { '0' + resultDigits[it + startIdx] })
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
