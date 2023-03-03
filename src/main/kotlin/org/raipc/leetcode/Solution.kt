@@ -1,6 +1,7 @@
 package org.raipc.leetcode
 
 import java.util.*
+import java.util.regex.Pattern
 
 class Solution {
     // 1162. As Far from Land as Possible
@@ -1813,7 +1814,8 @@ class Solution {
     fun lengthOfLastWord(s: String) = s.trim().let { it.length - it.lastIndexOf(' ') - 1 }
 
     // 28. Find the Index of the First Occurrence in a String
-    fun strStr(haystack: String, needle: String) = haystack.indexOf(needle)
+    fun strStr(haystack: String, needle: String) = with(Pattern.compile(needle, Pattern.LITERAL).matcher(haystack))
+        { if (find()) start() else -1 }
 
     private fun swap(nums: IntArray, firstIdx: Int, secondIdx: Int) {
         val tmp = nums[firstIdx]
