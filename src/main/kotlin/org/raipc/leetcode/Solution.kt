@@ -333,6 +333,28 @@ class Solution {
         return prevPrev
     }
 
+    // 234. Palindrome Linked List
+    fun isPalindrome(head: ListNode?): Boolean {
+        if (head?.next == null) return true
+        var slow: ListNode = head
+        var fast = head.next
+        while (fast?.next != null) {
+            slow = slow.next!!
+            fast = fast.next!!.next
+        }
+        val rev: ListNode = reverseList(slow.next)!!
+        slow = head
+        fast = rev
+        while (fast != null) {
+            if (slow.`val` != fast.`val`) {
+                return false
+            }
+            slow = slow.next!!
+            fast = fast.next
+        }
+        return true
+    }
+
     // 20. Valid Parentheses
     fun isValid(s: String): Boolean {
         val stack = ArrayDeque<Char>()
