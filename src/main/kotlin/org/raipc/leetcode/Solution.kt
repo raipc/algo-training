@@ -321,16 +321,16 @@ class Solution {
     // 206. Reverse Linked List
     fun reverseList(head: ListNode?): ListNode? {
         if (head == null) return null
-        var prevPrev: ListNode? = null
-        var prev = head
+        var prev: ListNode? = null
+        var cur = head
 
-        while (prev != null) {
-            val cur = prev.next
-            prev.next = prevPrev
-            prevPrev = prev
+        while (cur != null) {
+            val next = cur.next
+            cur.next = prev
             prev = cur
+            cur = next
         }
-        return prevPrev
+        return prev
     }
 
     // 234. Palindrome Linked List
