@@ -1,6 +1,7 @@
 package org.raipc.leetcode
 import java.util.*
 
+// 232. Implement Queue using Stacks
 class MyQueue() {
     private val pushStack = ArrayDeque<Int>()
     private val popStack = ArrayDeque<Int>()
