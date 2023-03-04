@@ -2030,6 +2030,23 @@ class Solution {
         val startIdx = resultDigits.indexOfFirst { it > 0 }
         return if (startIdx < 0) "0" else String(CharArray(resultDigits.size - startIdx) { '0' + resultDigits[it + startIdx] })
     }
+
+    // 2444. Count Subarrays With Fixed Bounds
+    fun countSubarrays(nums: IntArray, minK: Int, maxK: Int): Long {
+        var count = 0L
+        var minIdx = -1
+        var maxIdx = -1
+        var outOfBoundsIdx = -1
+        nums.forEachIndexed { i, num ->
+            if (num > maxK || num < minK) outOfBoundsIdx = i
+            else {
+                if (num == minK) minIdx = i
+                if (num == maxK) maxIdx = i
+                count += maxOf(0, minOf(minIdx, maxIdx) - outOfBoundsIdx)
+            }
+        }
+        return count
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
