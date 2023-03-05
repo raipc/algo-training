@@ -636,6 +636,20 @@ class Solution {
         return result.asReversed()
     }
 
+    // 144. Binary Tree Preorder Traversal
+    fun preorderTraversal(root: TreeNode?): List<Int> {
+        if (root == null) return emptyList()
+        val queue = ArrayDeque<TreeNode>().apply { add(root) }
+        return mutableListOf<Int>().apply {
+            while (queue.isNotEmpty()) {
+                val node = queue.pollLast()!!
+                add(node.`val`)
+                node.right?.let { queue.add(it) }
+                node.left?.let { queue.add(it) }
+            }
+        }
+    }
+
     // 589. N-ary Tree Preorder Traversal
     fun preorder(root: Node?): List<Int> {
         if (root == null) return listOf()
