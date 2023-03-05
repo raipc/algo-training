@@ -2153,6 +2153,47 @@ class Solution {
         evenListTail.next = null
         return head
     }
+
+    // 148. Sort List
+    fun sortList(head: ListNode?): ListNode? {
+        fun merge(left: ListNode, right: ListNode): ListNode {
+            var leftTail: ListNode? = left
+            var rightTail: ListNode? = right
+            val acc = if (left.`val` <= right.`val`) {
+                leftTail = left.next
+                left
+            } else {
+                rightTail = right.next
+                right
+            }
+            var tail = acc
+            while (leftTail != null && rightTail != null) {
+                if (leftTail.`val` <= rightTail.`val`) {
+                    tail.next = leftTail
+                    leftTail = leftTail.next
+                } else {
+                    tail.next = rightTail
+                    rightTail = rightTail.next
+                }
+                tail = tail.next!!
+            }
+            tail.next = leftTail ?: rightTail
+            return acc
+        }
+
+        fun sort(node: ListNode): ListNode {
+            if (node.next == null) return node
+            var slow: ListNode = node
+            var fast: ListNode? = node.next
+            while (fast?.next != null) {
+                slow = slow.next!!
+                fast = fast.next!!.next
+            }
+            val right = slow.next.also { slow.next = null }
+            return merge(sort(node), sort(right!!))
+        }
+        return if (head?.next == null) head else sort(head)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
