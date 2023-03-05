@@ -226,6 +226,22 @@ class Solution {
         return accumulator
     }
 
+    // 12. Integer to Roman
+    fun intToRoman(num: Int): String {
+        val divisors = intArrayOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+        val romans = arrayOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+        return buildString {
+            var acc = num
+            divisors.forEachIndexed { i, divisor ->
+                val quotient = acc / divisor
+                acc -= quotient * divisor
+                repeat(quotient) {
+                    append(romans[i])
+                }
+            }
+        }
+    }
+
     // 189. Rotate Array
     fun rotate(nums: IntArray, k: Int): IntArray {
         fun reverse(from: Int, to: Int) {
