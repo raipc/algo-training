@@ -2128,6 +2128,31 @@ class Solution {
         }
         return jumpCount
     }
+
+    // 328. Odd Even Linked List
+    fun oddEvenList(head: ListNode?): ListNode? {
+        if (head?.next == null) return head
+        val evenListHead = ListNode(0)
+        var evenListTail = evenListHead
+        var oddNode = head
+        while (oddNode != null) {
+            val evenNode = oddNode.next
+            if (evenNode != null) {
+                oddNode.next = evenNode.next
+                evenListTail.next = evenNode
+                evenListTail = evenNode
+            } else {
+                // oddNode.next = evenListHead.next
+                evenListTail.next = null
+            }
+            oddNode = if (evenListTail.next != null) evenListTail.next else {
+                oddNode.next = evenListHead.next
+                null
+            }
+        }
+        evenListTail.next = null
+        return head
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
