@@ -665,6 +665,22 @@ class Solution {
             }
         }.asReversed()
 
+    // 94. Binary Tree Inorder Traversal
+    fun inorderTraversal(root: TreeNode?): List<Int> =
+        if (root == null) emptyList() else mutableListOf<Int>().apply {
+            val stack = ArrayDeque<TreeNode>()
+            var cur = root
+            while (cur != null || stack.isNotEmpty()) {
+                while (cur != null) {
+                    stack.addLast(cur)
+                    cur = cur.left
+                }
+                cur = stack.removeLast()
+                add(cur.`val`)
+                cur = cur.right
+            }
+        }
+
     // 589. N-ary Tree Preorder Traversal
     fun preorder(root: Node?): List<Int> {
         if (root == null) return listOf()
