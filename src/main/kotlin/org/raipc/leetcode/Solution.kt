@@ -2092,6 +2092,26 @@ class Solution {
         }
         return count
     }
+
+    // 1345. Jump Game IV
+    fun minJumps(arr: IntArray): Int {
+        val indicesByValue = arr.indices.groupByTo(hashMapOf()) { arr[it] }
+        val visited = BooleanArray(arr.size).also { it[0] = true }
+        val target = arr.lastIndex
+        var jumpCount = 0
+        val queue = ArrayDeque<Int>().apply { add(0) }
+        while (queue.isNotEmpty()) {
+            repeat(queue.count()) {
+                val index = queue.removeFirst()
+                if (index == target) return jumpCount
+                indicesByValue.remove(arr[index])?.forEach { if (!visited[it]) { queue.add(it); visited[it] = true } }
+                (index - 1).let { if (it >= 0 && !visited[it]) { queue.add(it); visited[it] = true } }
+                (index + 1).let { if (it <= target && !visited[it]) { queue.add(it); visited[it] = true } }
+            }
+            ++jumpCount
+        }
+        return jumpCount
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
