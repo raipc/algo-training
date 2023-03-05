@@ -2194,6 +2194,12 @@ class Solution {
         }
         return if (head?.next == null) head else sort(head)
     }
+
+    val vowels = "AEIOUaeiou"
+
+    // 1704. Determine if String Halves Are Alike
+    fun halvesAreAlike(s: String): Boolean =
+        (0 until s.length / 2).count { s[it] in vowels } == (s.length / 2 until s.length).count { s[it] in vowels }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
