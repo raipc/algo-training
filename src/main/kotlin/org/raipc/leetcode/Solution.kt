@@ -2232,6 +2232,19 @@ class Solution {
         }
         return palindromeCount + if (hasOddPalindrome) 2 else 0
     }
+
+    // 621. Task Scheduler
+    fun leastInterval(tasks: CharArray, n: Int): Int {
+        val counts = IntArray(26).apply { tasks.forEach { ++this[it-'A'] } }
+        val max = counts.max()!!
+        val maxCount = counts.count { it == max }
+        val numberOfBatches = max - 1
+        val batchSize = n - maxCount + 1
+        val numberOfSlots = numberOfBatches * batchSize
+        val availableTasks = tasks.size - max * maxCount
+        val idleTasks = maxOf(numberOfSlots - availableTasks, 0)
+        return tasks.size + idleTasks
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
