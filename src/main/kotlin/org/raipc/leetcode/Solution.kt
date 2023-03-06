@@ -2255,6 +2255,24 @@ class Solution {
         }
         return root == null || areEqual(root.left, root.right)
     }
+
+    // 2306. Naming a Company
+    fun distinctNames(ideas: Array<String>): Long {
+        val ideasByPrefix = Array(26){ hashSetOf<String>() }
+        ideas.forEach { ideasByPrefix[it[0] - 'a'] += it.substring(1) }
+        var namesCount = 0L
+        for (i in 0 until ideasByPrefix.lastIndex) {
+            val firstGroup = ideasByPrefix[i]
+            for (j in i + 1 until ideasByPrefix.size) {
+                val secondGroup = ideasByPrefix[j]
+                val minGroup = if (firstGroup.size <= secondGroup.size) firstGroup else secondGroup
+                val maxGroup = if (firstGroup.size <= secondGroup.size) secondGroup else firstGroup
+                val ideaIntersection = minGroup.count { it in maxGroup }
+                namesCount += 2 * (minGroup.size - ideaIntersection) * (maxGroup.size - ideaIntersection)
+            }
+        }
+        return namesCount
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
