@@ -2217,6 +2217,21 @@ class Solution {
         }
         return arr[leftIdx-1] + targetMisses - countMissing(leftIdx - 1)
     }
+
+    // 2131. Longest Palindrome by Concatenating Two Letter Words
+    fun longestPalindrome(words: Array<String>): Int {
+        val wordCount = hashMapOf<String, Int>()
+        words.forEach { wordCount.compute(it) { _, prev -> (prev?:0) + 1 } }
+        var palindromeCount = 0
+        var hasOddPalindrome = false
+        wordCount.forEach { (word, count) ->
+            palindromeCount += if (word[0] == word[1]) {
+                hasOddPalindrome = hasOddPalindrome || count % 2 == 1
+                count / 2 * 4
+            } else 2 * minOf(count, wordCount[word.reversed()]?:0)
+        }
+        return palindromeCount + if (hasOddPalindrome) 2 else 0
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
