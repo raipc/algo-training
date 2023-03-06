@@ -2245,6 +2245,16 @@ class Solution {
         val idleTasks = maxOf(numberOfSlots - availableTasks, 0)
         return tasks.size + idleTasks
     }
+
+    // 101. Symmetric Tree
+    fun isSymmetric(root: TreeNode?): Boolean {
+        fun areEqual(left: TreeNode?, right: TreeNode?): Boolean = when {
+            left == null || right == null -> left == right
+            left.`val` != right.`val` -> false
+            else -> areEqual(left.left, right.right) && areEqual(right.left, left.right)
+        }
+        return root == null || areEqual(root.left, root.right)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
