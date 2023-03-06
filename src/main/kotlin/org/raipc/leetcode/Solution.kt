@@ -2273,6 +2273,23 @@ class Solution {
         }
         return namesCount
     }
+
+    // 918. Maximum Sum Circular Subarray
+    fun maxSubarraySumCircular(nums: IntArray): Int {
+        var totalSum = 0
+        var maxSum: Int = Int.MIN_VALUE
+        var curMax = 0
+        var minSum: Int = Int.MAX_VALUE
+        var curMin = 0
+        for (x in nums) {
+            curMax = maxOf(x, curMax + x)
+            maxSum = maxOf(maxSum, curMax)
+            curMin = minOf(x, curMin + x)
+            minSum = minOf(minSum, curMin)
+            totalSum += x
+        }
+        return if (maxSum > 0) maxOf(maxSum, totalSum - minSum) else maxSum
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
