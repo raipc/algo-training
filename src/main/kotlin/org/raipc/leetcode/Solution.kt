@@ -2200,6 +2200,23 @@ class Solution {
     // 1704. Determine if String Halves Are Alike
     fun halvesAreAlike(s: String): Boolean =
         (0 until s.length / 2).count { s[it] in vowels } == (s.length / 2 until s.length).count { s[it] in vowels }
+
+    // 1539. Kth Missing Positive Number
+    fun findKthPositive(arr: IntArray, k: Int): Int {
+        val offset = arr.first()
+        fun countMissing(index: Int): Int = arr[index] - offset - index
+        if (k < offset) return k
+        val missedInArray = countMissing(arr.lastIndex)
+        val targetMisses = k - offset + 1
+        if (k - targetMisses > missedInArray) return arr.last() + targetMisses - missedInArray
+        var leftIdx = 0
+        var rightIdx = arr.lastIndex
+        while (leftIdx <= rightIdx) {
+            val mid = (leftIdx + rightIdx) / 2
+            if (countMissing(mid) < targetMisses) leftIdx = mid + 1 else rightIdx = mid - 1
+        }
+        return arr[leftIdx-1] + targetMisses - countMissing(leftIdx - 1)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
