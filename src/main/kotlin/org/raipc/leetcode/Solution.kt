@@ -2290,6 +2290,22 @@ class Solution {
         }
         return if (maxSum > 0) maxOf(maxSum, totalSum - minSum) else maxSum
     }
+
+    // 2187. Minimum Time to Complete Trips
+    fun minimumTime(time: IntArray, totalTrips: Int): Long {
+        var minPrediction = 1L
+        var maxPrediction = Long.MAX_VALUE
+        while (minPrediction < maxPrediction) {
+            val prediction = minPrediction + (maxPrediction - minPrediction) / 2
+            var trips = 0L
+            for (i in time.indices) {
+                trips += prediction / time[i]
+                if (trips >= totalTrips) break
+            }
+            if (trips < totalTrips) minPrediction = prediction + 1 else maxPrediction = prediction
+        }
+        return minPrediction
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
