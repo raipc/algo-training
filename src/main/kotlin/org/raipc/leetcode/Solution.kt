@@ -2322,6 +2322,16 @@ class Solution {
         }
         return minPrediction
     }
+
+    // 112. Path Sum
+    fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
+        fun calculateSum(node: TreeNode, accSum: Int): Boolean = (accSum + node.`val`).let { updatedAcc ->
+            if (node.left == null && node.right == null) updatedAcc == targetSum
+            else (node.left?.let  { calculateSum(it, updatedAcc) } ?: false) ||
+                 (node.right?.let { calculateSum(it, updatedAcc) } ?: false)
+        }
+        return root != null && calculateSum(root, 0)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
