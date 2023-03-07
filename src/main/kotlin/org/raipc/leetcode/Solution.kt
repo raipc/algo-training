@@ -1113,6 +1113,22 @@ class Solution {
         right = invertTree(leftPrev)
     }
 
+    // 110. Balanced Binary Tree
+    fun isBalanced(root: TreeNode?): Boolean {
+        fun height(node: TreeNode?): Int {
+            if (node == null) return 0
+            val leftHeight = height(node.left)
+            val rightHeight = height(node.right)
+            return when {
+                leftHeight == -1 -> -1
+                rightHeight == -1 -> -1
+                Math.abs(leftHeight - rightHeight) > 1 -> -1
+                else -> Math.max(leftHeight, rightHeight) + 1
+            }
+        }
+        return root == null || height(root) != -1
+    }
+
     // 617. Merge Two Binary Trees
     fun mergeTrees(root1: TreeNode?, root2: TreeNode?): TreeNode? = when {
         root1 == null -> if (root2 == null) null else TreeNode(root2.`val`)
