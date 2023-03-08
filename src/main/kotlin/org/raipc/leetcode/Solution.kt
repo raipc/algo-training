@@ -2350,6 +2350,19 @@ class Solution {
         }
         return minPrediction
     }
+
+    // 543. Diameter of Binary Tree
+    fun diameterOfBinaryTree(root: TreeNode?): Int {
+        var diameter = 0
+        fun height(node: TreeNode?): Int {
+            if (node == null) return 0
+            val leftHeight = height(node.left)
+            val rightHeight = height(node.right)
+            diameter = maxOf(diameter, leftHeight + rightHeight)
+            return 1 + maxOf(leftHeight, rightHeight)
+        }
+        return maxOf(height(root), diameter)
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
