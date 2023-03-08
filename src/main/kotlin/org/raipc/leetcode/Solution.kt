@@ -2275,7 +2275,7 @@ class Solution {
     // 2306. Naming a Company
     fun distinctNames(ideas: Array<String>): Long {
         val ideasByPrefix = Array(26){ hashSetOf<String>() }
-        ideas.forEach { ideasByPrefix[it[0] - 'a'] += it.substring(1) }
+        ideas.forEach { ideasByPrefix[it[0] - 'a'].add(it.substring(1)) }
         var namesCount = 0L
         for (i in 0 until ideasByPrefix.lastIndex) {
             val firstGroup = ideasByPrefix[i]
@@ -2331,6 +2331,19 @@ class Solution {
                  (node.right?.let { calculateSum(it, updatedAcc) } ?: false)
         }
         return root != null && calculateSum(root, 0)
+    }
+
+    // 437. Path Sum III
+    fun pathSum(root: TreeNode?, targetSum: Int): Int {
+        fun calculatePartialSum(root: TreeNode?, acc: Long, cache: HashMap<Long, Int>): Int {
+            if (root == null) return 0
+            val currSum = acc + root.`val`
+            val count = cache[currSum - targetSum]?:0
+            cache.compute(currSum) { _, prev -> (prev?:0) + 1 }
+            return count + calculatePartialSum(root.left, currSum, cache) + calculatePartialSum(root.right, currSum, cache)
+                .also { cache.compute(currSum) { _, prev -> (prev?:0) - 1 } }
+        }
+        return calculatePartialSum(root, 0, hashMapOf<Long, Int>().apply { this[0L] = 1 })
     }
 
     // 875. Koko Eating Bananas
