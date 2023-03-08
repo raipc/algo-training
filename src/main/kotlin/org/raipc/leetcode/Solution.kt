@@ -2384,6 +2384,19 @@ class Solution {
         `val` > root.`val` -> searchBST(root.right, `val`)
         else -> root
     }
+
+    // 701. Insert into a Binary Search Tree
+    fun insertIntoBST(root: TreeNode?, `val`: Int): TreeNode? {
+        if (root == null) return TreeNode(`val`)
+        var prevNode: TreeNode
+        var node = root
+        do {
+            prevNode = node!!
+            if (`val` < prevNode.`val`) node = prevNode.left else node = prevNode.right
+        } while (node != null)
+        TreeNode(`val`).let { if (`val` < prevNode.`val`) prevNode.left = it else prevNode.right = it }
+        return root
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
