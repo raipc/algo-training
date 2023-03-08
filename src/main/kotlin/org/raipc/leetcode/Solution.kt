@@ -2376,6 +2376,14 @@ class Solution {
         }
         return maxOf(height(root), diameter)
     }
+
+    // 700. Search in a Binary Search Tree
+    fun searchBST(root: TreeNode?, `val`: Int): TreeNode? = when {
+        root == null -> null
+        `val` < root.`val` -> searchBST(root.left, `val`)
+        `val` > root.`val` -> searchBST(root.right, `val`)
+        else -> root
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
