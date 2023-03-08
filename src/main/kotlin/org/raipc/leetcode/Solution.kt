@@ -2332,6 +2332,24 @@ class Solution {
         }
         return root != null && calculateSum(root, 0)
     }
+
+    // 875. Koko Eating Bananas
+    fun minEatingSpeed(piles: IntArray, h: Int): Int {
+        var minPrediction = 1
+        var maxPrediction = piles.max()!!
+        while (minPrediction < maxPrediction) {
+            val prediction = (minPrediction + maxPrediction) / 2
+            var time = 0
+            for (pile in piles) {
+                time += (pile - 1) / prediction + 1
+                if (time > h) {
+                    break
+                }
+            }
+            if (time <= h) maxPrediction = prediction else minPrediction = prediction + 1
+        }
+        return minPrediction
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
