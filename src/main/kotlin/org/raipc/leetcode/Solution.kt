@@ -174,6 +174,21 @@ class Solution {
         return -1
     }
 
+    // 33. Search in Rotated Sorted Array
+    fun searchInRotatedArray(nums: IntArray, target: Int): Int {
+        var low = 0
+        var high = nums.size - 1
+        while (low <= high) {
+            val mid = (low + high) / 2
+            when {
+                nums[mid] == target -> return mid
+                nums[low] <= nums[mid] -> if (target >= nums[low] && target <= nums[mid]) high = mid - 1 else low = mid + 1
+                else -> if (target >= nums[mid] && target <= nums[high]) low = mid + 1 else high = mid - 1
+            }
+        }
+        return -1
+    }
+
     // 35. Search Insert Position
     fun searchInsert(nums: IntArray, target: Int): Int {
         var low = 0
