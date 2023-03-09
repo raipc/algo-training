@@ -2504,3 +2504,22 @@ class VCSolution(brokenVersion: Int): VersionControl(brokenVersion) {
         return -1
     }
 }
+open class GuessGame(private val guess: Int) {
+    fun guess(num:Int):Int = Integer.signum(guess - num)
+}
+
+// 374. Guess Number Higher or Lower
+class GuessGameSolution(guess: Int) : GuessGame(guess) {
+    fun guessNumber(n:Int):Int {
+        var low = 1
+        var high = n
+        while (true) {
+            val test = low + (high - low) / 2
+            when(guess(test)) {
+                -1 -> high = test - 1
+                 1 -> low = test + 1
+                else -> return test
+            }
+        }
+    }
+}
