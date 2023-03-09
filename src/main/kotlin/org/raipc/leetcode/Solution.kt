@@ -205,6 +205,31 @@ class Solution {
         return low
     }
 
+    // 34. Find First and Last Position of Element in Sorted Array
+    fun searchRange(nums: IntArray, target: Int): IntArray {
+        fun indexOfElement(first: Boolean): Int {
+            var low = 0
+            var high = nums.size - 1
+            var result = -1
+            while (low <= high) {
+                val mid = low + (high - low) / 2
+                val midVal = nums[mid]
+                when {
+                    midVal > target -> high = mid - 1
+                    midVal < target -> low = mid + 1
+                    else -> {
+                        result = mid
+                        if (first) high = mid - 1 else low = mid + 1
+                    }
+                }
+            }
+            return result
+        }
+        val first = indexOfElement(first = true)
+        val last = if (first == -1) -1 else indexOfElement(first = false)
+        return intArrayOf(first, last)
+    }
+
     // 14. Longest Common Prefix
     fun longestCommonPrefix(strs: Array<String>): String {
         if (strs.size == 1) return strs[0]
