@@ -1504,6 +1504,21 @@ class Solution {
         throw IllegalStateException("Answer must exist!")
     }
 
+    // 653. Two Sum IV - Input is a BST
+    fun findTarget(root: TreeNode?, k: Int): Boolean {
+        if (root == null) return false
+        val set = hashSetOf<Int>()
+        val queue = ArrayDeque<TreeNode>().apply { add(root) }
+        while (queue.isNotEmpty()) {
+            val node = queue.pollFirst()!!
+            if (set.contains(k - node.`val`)) return true
+            set.add(node.`val`)
+            node.left?.let { queue.add(it) }
+            node.right?.let { queue.add(it) }
+        }
+        return false
+    }
+
     // 299. Bulls and Cows
     fun getHint(secret: String, guess: String): String {
         var bulls = 0
