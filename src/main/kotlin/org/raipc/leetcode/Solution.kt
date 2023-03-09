@@ -893,8 +893,8 @@ class Solution {
     fun isValidBST(root: TreeNode?): Boolean {
         fun isValidRecursive(node: TreeNode, rangeLeft: Long, rangeRight: Long): Boolean = node.`val`.let { value ->
             (value > rangeLeft) && (value < rangeRight) &&
-            (node.left?.let { it.`val` < value && isValidRecursive(it, rangeLeft, value.toLong()) } ?: true) &&
-            (node.right?.let { it.`val` > value && isValidRecursive(it, value.toLong(), rangeRight) } ?: true)
+                node.left.let { it == null || it.`val` < value && isValidRecursive(it, rangeLeft, value.toLong()) } &&
+                node.right.let { it == null || it.`val` > value && isValidRecursive(it, value.toLong(), rangeRight) }
         }
         return root == null || isValidRecursive(root, Long.MIN_VALUE, Long.MAX_VALUE)
     }
