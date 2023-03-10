@@ -2452,6 +2452,21 @@ class Solution {
         TreeNode(`val`).let { if (`val` < prevNode.`val`) prevNode.left = it else prevNode.right = it }
         return root
     }
+
+    // 108. Convert Sorted Array to Binary Search Tree
+    fun sortedArrayToBST(nums: IntArray): TreeNode? {
+        fun createBST(left: Int, right: Int): TreeNode {
+            val mid = (left + right) / 2
+            return TreeNode(nums[mid])
+                .also { if (left < mid) it.left = createBST(left, mid - 1) }
+                .also { if (right > mid) it.right = createBST(mid + 1, right) }
+        }
+        return when (nums.size ) {
+            0 -> null
+            1 -> TreeNode(nums[0])
+            else -> createBST(0, nums.lastIndex)
+        }
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
