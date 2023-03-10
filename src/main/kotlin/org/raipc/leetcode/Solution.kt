@@ -2523,3 +2523,22 @@ class GuessGameSolution(guess: Int) : GuessGame(guess) {
         }
     }
 }
+
+// 382. Linked List Random Node
+class RandomLinkedListSolution(head: ListNode?) {
+    private val arrayList = toArrayList(head)
+    private val random = java.util.Random()
+    private fun toArrayList(head: ListNode?): List<Int> {
+        if (head == null) return emptyList()
+        val result = ArrayList<Int>(10000)
+        var node = head
+        while(node != null) {
+            result += node.`val`
+            node = node.next
+        }
+        return result
+    }
+
+    fun getRandom(): Int = arrayList[random.nextInt(arrayList.size)]
+
+}
