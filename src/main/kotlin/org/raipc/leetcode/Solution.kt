@@ -189,6 +189,19 @@ class Solution {
         return -1
     }
 
+    // 153. Find Minimum in Rotated Sorted Array
+    fun findMin(nums: IntArray): Int {
+        if (nums.size == 1) return nums[0]
+        var low = 0
+        var high = nums.lastIndex
+        while (low < high) {
+            val mid = (low + high) / 2
+            if (mid > 0 && nums[mid] < nums[mid - 1]) return nums[mid]
+            if (nums[low] <= nums[mid] && nums[mid] > nums[high]) low = mid + 1 else high = mid - 1
+        }
+        return nums[low]
+    }
+
     // 35. Search Insert Position
     fun searchInsert(nums: IntArray, target: Int): Int {
         var low = 0
