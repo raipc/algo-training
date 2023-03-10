@@ -203,6 +203,7 @@ class Solution {
     }
 
     // 162. Find Peak Element
+    // 852. Peak Index in a Mountain Array
     fun findPeakElement(nums: IntArray): Int {
         var low = 0
         var high = nums.lastIndex
