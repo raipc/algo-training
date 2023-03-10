@@ -202,6 +202,17 @@ class Solution {
         return nums[low]
     }
 
+    // 162. Find Peak Element
+    fun findPeakElement(nums: IntArray): Int {
+        var low = 0
+        var high = nums.lastIndex
+        while (low < high) {
+            val mid = low + (high - low) / 2
+            if (nums[mid] < nums[mid + 1]) low = mid + 1 else high = mid
+        }
+        return low
+    }
+
     // 35. Search Insert Position
     fun searchInsert(nums: IntArray, target: Int): Int {
         var low = 0
