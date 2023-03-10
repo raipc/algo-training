@@ -2467,6 +2467,23 @@ class Solution {
             else -> createBST(0, nums.lastIndex)
         }
     }
+
+    // 230. Kth Smallest Element in a BST
+    fun kthSmallest(root: TreeNode?, k: Int): Int {
+        val stack = ArrayDeque<TreeNode>()
+        var leftToProcess = k
+        var node = root
+        do {
+            while (node != null) {
+                stack += node
+                node = node.left
+            }
+            val polled = stack.removeLast()
+            if (--leftToProcess == 0) return polled.`val`
+            node = polled.right
+        } while (node != null || stack.isNotEmpty())
+        throw IllegalStateException("Not enough nodes")
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
