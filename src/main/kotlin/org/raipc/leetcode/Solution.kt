@@ -500,6 +500,27 @@ class Solution {
         }
     }
 
+    // 15. 3Sum
+    fun threeSum(nums: IntArray) = mutableListOf<List<Int>>().apply {
+        nums.sort()
+        for (i in 0 until nums.size - 2) {
+            if (i == 0 || i > 0 && nums[i] != nums[i - 1]) {
+                var low = i + 1
+                var high: Int = nums.size - 1
+                val sum = -nums[i]
+                while (low < high) {
+                    if (nums[low] + nums[high] == sum) {
+                        add(listOf(nums[i], nums[low], nums[high]))
+                        while (low < high && nums[low] == nums[low + 1]) low++
+                        while (low < high && nums[high] == nums[high - 1]) high--
+                        low++
+                        high--
+                    } else if (nums[low] + nums[high] < sum) low++ else high--
+                }
+            }
+        }
+    }
+
     // 876. Middle of the Linked List
     fun middleNode(head: ListNode?): ListNode? {
         var slow = head
