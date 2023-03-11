@@ -2534,7 +2534,39 @@ class Solution {
         return root
     }
 
-
+    // 417. Pacific Atlantic Water Flow
+    fun pacificAtlantic(heights: Array<IntArray>): List<List<Int>> {
+        val n = heights.size
+        val m = heights[0].size
+        fun dfs(i: Int, j: Int, prev: Int, visited: Array<BooleanArray>) {
+            if ((i in 0 until n) && (j in 0 until m) && !visited[i][j] && prev <= heights[i][j]) {
+                visited[i][j] = true;
+                dfs(i + 1, j, heights[i][j], visited)
+                dfs(i - 1, j, heights[i][j], visited)
+                dfs(i, j + 1, heights[i][j], visited)
+                dfs(i, j - 1, heights[i][j], visited)
+            }
+        }
+        val pacific = Array(n) { BooleanArray(m) }
+        val atlantic = Array(n) { BooleanArray(m) }
+        for (i in 0 until m) {
+            dfs(0, i, heights[0][i], pacific)
+            dfs(n - 1, i, heights[n - 1][i], atlantic)
+        }
+        for (i in 0 until n) {
+            dfs(i, 0, heights[i][0], pacific)
+            dfs(i, m - 1, heights[i][m - 1], atlantic)
+        }
+        val result = mutableListOf<List<Int>>()
+        for (i in 0 until n) {
+            for (j in 0 until m) {
+                if (pacific[i][j] && atlantic[i][j]) {
+                    result.add(listOf(i, j))
+                }
+            }
+        }
+        return result
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
