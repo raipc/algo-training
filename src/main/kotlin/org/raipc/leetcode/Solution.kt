@@ -2509,6 +2509,32 @@ class Solution {
         } while (node != null || stack.isNotEmpty())
         throw IllegalStateException("Not enough nodes")
     }
+
+    // 109. Convert Sorted List to Binary Search Tree
+    fun sortedListToBST(head: ListNode?): TreeNode? {
+        fun getMiddle(node: ListNode): ListNode {
+            var fast: ListNode? = node
+            var slow: ListNode = node
+            var prev: ListNode? = null
+            while (fast?.next != null) {
+                fast = fast.next!!.next
+                prev = slow
+                slow = slow.next!!
+            }
+            prev?.next = null
+            return slow
+        }
+        if (head == null) return null
+        if (head.next == null) return TreeNode(head.`val`)
+        val middle = getMiddle(head)
+        val root = TreeNode(middle.`val`)
+        root.right = sortedListToBST(middle.next)
+        middle.next = null
+        root.left = sortedListToBST(head)
+        return root
+    }
+
+
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
