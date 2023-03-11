@@ -2609,6 +2609,23 @@ class Solution {
         }
         return result
     }
+
+    // 367. Valid Perfect Square
+    fun isPerfectSquare(num: Int): Boolean {
+        val numLong = num.toLong()
+        var from = 1L
+        var to = 1000000L
+        while (from <= to) {
+            val mid = (from + to) / 2
+            val square = mid * mid
+            when {
+                square > numLong -> to = mid - 1
+                square < numLong -> from = mid + 1
+                else -> return true
+            }
+        }
+        return false
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
