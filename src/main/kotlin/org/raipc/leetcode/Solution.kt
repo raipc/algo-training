@@ -2110,7 +2110,28 @@ class Solution {
         return head
     }
 
+    // 82. Remove Duplicates from Sorted List II
+    fun deleteDuplicates2(head: ListNode?): ListNode? {
+        if (head == null) return null
+        val tempHead = ListNode(0).apply { next = head }
+        var previous: ListNode = tempHead
+        var current: ListNode = head
+        var next = current.next
+        var toDelete = Integer.MAX_VALUE
+        while (next != null) {
+            if (next!!.`val` == current.`val`) {
+                previous.next = next!!.next
+                toDelete = current.`val`
+            } else if (current.`val` != toDelete) {
+                previous = current
+            }
+            current = next!!
+            next = next!!.next
+        }
+        return tempHead.next
+    }
 
+    // 202. Happy Number
     fun isHappy(n: Int): Boolean {
         fun sumOfSquares(value: Int): Int {
             var acc = 0
