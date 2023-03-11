@@ -2626,6 +2626,10 @@ class Solution {
         }
         return false
     }
+
+    // 1385. Find the Distance Value Between Two Arrays
+    fun findTheDistanceValue(arr1: IntArray, arr2: IntArray, d: Int): Int =
+        arr1.count { element -> arr2.none { Math.abs(element - it) <= d } }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
