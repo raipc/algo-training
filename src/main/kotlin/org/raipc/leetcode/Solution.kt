@@ -2656,6 +2656,38 @@ class Solution {
         }
         return if (i == numCourses) ans else intArrayOf()
     }
+
+    // 815. Bus Routes
+    fun numBusesToDestination(routes: Array<IntArray>, source: Int, target: Int): Int {
+        val stopToRouteIndexes = hashMapOf<Int, ArrayList<Int>>()
+        for (routeIndex in routes.indices) {
+            for (busStop in  routes[routeIndex]) {
+                stopToRouteIndexes.getOrPut(busStop) { ArrayList() }.add(routeIndex)
+            }
+        }
+        val queue = ArrayDeque<Int>().apply { add(source) }
+        val busStopsVisited = hashSetOf<Int>().apply { add(source) }
+        val routesVisited = BooleanArray(routes.size)
+
+        var count = 0
+        while (queue.isNotEmpty()) {
+            repeat(queue.size) {
+                val stop = queue.removeFirst()
+                if (stop == target) { return count }
+                val buses = stopToRouteIndexes.getOrElse(stop) { emptyList<Int>() }
+                for (bus in buses) {
+                    if (!routesVisited[bus]) {
+                        for (nextStop in routes[bus]) {
+                            if (busStopsVisited.add(nextStop)) { queue.addLast(nextStop) }
+                        }
+                        routesVisited[bus] = true
+                    }
+                }
+            }
+            count++
+        }
+        return -1
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
