@@ -2688,6 +2688,25 @@ class Solution {
         }
         return -1
     }
+
+    // 986. Interval List Intersections
+    fun intervalIntersection(firstList: Array<IntArray>, secondList: Array<IntArray>): Array<IntArray> {
+        val n1 = firstList.size
+        val n2 = secondList.size
+        if (n1 == 0 || n2 == 0) return emptyArray()
+        val ans = mutableListOf<IntArray>()
+        var i = 0
+        var j = 0
+        while (i < n1 && j < n2) {
+            val (startFirst, endFirst) = firstList[i]
+            val (startSecond, endSecond) = secondList[j]
+            if (startFirst <= endSecond && endFirst >= startSecond) {
+                ans.add(intArrayOf(maxOf(startFirst, startSecond), minOf(endFirst, endSecond)))
+            }
+            if (endFirst < endSecond) i += 1 else j += 1
+        }
+        return ans.toTypedArray()
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
