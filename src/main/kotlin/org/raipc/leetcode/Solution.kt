@@ -2724,6 +2724,21 @@ class Solution {
         }
         return high
     }
+
+    // 744. Find Smallest Letter Greater Than Target
+    fun nextGreatestLetter(letters: CharArray, target: Char): Char {
+        var low = 0
+        var high = letters.lastIndex
+        while (low <= high) {
+            val mid = low + (high - low) / 2
+            if (target < letters[mid]) {
+                high = mid - 1
+            } else {
+                low = mid + 1
+            }
+        }
+        return letters[low % letters.size]
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
