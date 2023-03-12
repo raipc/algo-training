@@ -2707,6 +2707,23 @@ class Solution {
         }
         return ans.toTypedArray()
     }
+
+    // 69. Sqrt(x)
+    fun mySqrt(x: Int): Int {
+        if (x == 0) { return 0 }
+        var low = 1
+        var high = x
+        while (low <= high) {
+            val mid = low + (high - low) / 2
+            val div = x / mid
+            when {
+                mid > div -> high = mid - 1
+                mid < div -> low = mid + 1
+                else -> return mid
+            }
+        }
+        return high
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
