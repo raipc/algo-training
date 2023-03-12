@@ -2630,6 +2630,32 @@ class Solution {
     // 1385. Find the Distance Value Between Two Arrays
     fun findTheDistanceValue(arr1: IntArray, arr2: IntArray, d: Int): Int =
         arr1.count { element -> arr2.none { Math.abs(element - it) <= d } }
+
+    // 210. Course Schedule II
+    fun findOrder(numCourses: Int, prerequisites: Array<IntArray>): IntArray {
+        val adjacent = Array(numCourses) { mutableListOf<Int>() }
+        for ((course, prerequisite) in prerequisites) {
+            adjacent[prerequisite].add(course)
+        }
+        val queue: Queue<Int> = ArrayDeque<Int>()
+        val indegree = IntArray(numCourses)
+
+        for (courses in adjacent) {
+            for (i in courses.indices) {
+                ++indegree[courses[i]]
+            }
+        }
+        for (i in indegree.indices) { if (indegree[i] == 0) queue += i }
+
+        val ans = IntArray(numCourses)
+        var i = 0
+        while (queue.isNotEmpty()) {
+            val node = queue.remove()
+            ans[i++] = node
+            for (course in adjacent[node]) { if (--indegree[course] == 0) queue += course }
+        }
+        return if (i == numCourses) ans else intArrayOf()
+    }
 }
 
 class QuadTreeNode(var `val`: Boolean, var isLeaf: Boolean) {
